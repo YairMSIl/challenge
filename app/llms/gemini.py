@@ -9,13 +9,13 @@ Public Components:
 - configure_gemini(): Setup function for API configuration
 
 Design Decisions:
-- Uses Gemini 1.5 Flash model for optimal performance
+- Uses Gemini 2.0 Flash Experimental model for optimal performance
 - Implements retry mechanism for API failures
 - Includes proper error handling and logging
 - Supports async operations for better scalability
 - Maintains conversation history for contextual responses
 - Integrates with CostTracker for budget management
-- Implements token-based cost calculation (0.00001$/input token, 0.00002$/output token)
+- Implements token-based cost calculation (0.01$/input token, 0.02$/output token)
 
 Integration Notes:
 - Requires GEMINI_API_KEY in environment variables
@@ -44,7 +44,7 @@ class GeminiAPI:
             raise ValueError("GEMINI_API_KEY is required")
         
         self.configure()
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-2.0-flash-exp")
         self.cost_tracker = CostTracker("gemini", self._calculate_request_cost)
         self.chats = {}  # Store chat sessions
         logger.info("GeminiAPI initialized successfully")
