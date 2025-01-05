@@ -9,13 +9,15 @@ Design Decisions:
 - Templated HTML/CSS frontend for chat interface
 - Maintains conversation context per WebSocket connection
 - Includes real-time cost tracking and display
+- Supports image generation with Eden AI
 
 Integration Notes:
-- Requires GEMINI_API_KEY in environment variables
+- Requires GEMINI_API_KEY and EDEN_API_KEY in environment variables
 - Runs on default port 8000
 - Static files served from /static directory
 - Templates stored in /templates directory
 - Uses CostTracker for budget management
+- Generated images stored in logs/images directory
 """
 
 import os
@@ -35,6 +37,7 @@ from fastapi.templating import Jinja2Templates
 import uuid
 
 from app.llms.gemini import gemini_api
+from app.image_generators.eden_image import eden_image_generator
 from utils.logging_config import get_logger
 
 # Get logger instance
@@ -44,12 +47,17 @@ logger = get_logger(__name__)
 if not os.getenv("GEMINI_API_KEY"):
     logger.error("GEMINI_API_KEY environment variable not set!")
     sys.exit(1)
+if not os.getenv("EDEN_API_KEY"):
+    logger.error("EDEN_API_KEY environment variable not set!")
+    sys.exit(1)
 
 # Create FastAPI application
 app = FastAPI(title="Gemini Chat Interface")
 
 # Mount static files directory
 app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
+# Mount images directory
+app.mount("/images", StaticFiles(directory=Path("logs/images")), name="images")
 
 # Configure templates
 templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
@@ -74,27 +82,57 @@ async def websocket_endpoint(websocket: WebSocket):
             logger.info(f"Received message: {message[:50]}...")
             
             try:
-                # Generate response
-                response = await gemini_api.generate_content(message, session_id)
+                # Check if this is an image generation request
+                is_image_request = message.lower().startswith(("/image", "generate image", "create image", "make image", "draw"))
                 
-                # Get cost information
-                cost_info = {
-                    "request_cost": gemini_api.cost_tracker.get_session_costs(session_id).last_request_cost,
-                    "total_cost": gemini_api.cost_tracker.get_total_cost(session_id),
-                    "remaining_budget": gemini_api.cost_tracker.get_remaining_budget(session_id)
-                }
-                
-                # Send response with cost information
-                await websocket.send_json({
-                    "message": response,
-                    "cost_info": cost_info
-                })
-                
-                logger.info(
-                    f"Sent response successfully. "
-                    f"Cost: ${cost_info['request_cost']:.3f}, "
-                    f"Total: ${cost_info['total_cost']:.3f}"
-                )
+                if is_image_request:
+                    # Generate image
+                    image_path = await eden_image_generator.generate_image(message, session_id)
+                    
+                    # Get cost information
+                    cost_info = {
+                        "request_cost": eden_image_generator.cost_tracker.get_session_costs(session_id).last_request_cost,
+                        "total_cost": eden_image_generator.cost_tracker.get_total_cost(session_id),
+                        "remaining_budget": eden_image_generator.cost_tracker.get_remaining_budget(session_id)
+                    }
+                    
+                    # Convert image path to URL
+                    image_url = f"/images/{Path(image_path).name}"
+                    
+                    # Send response with image and cost information
+                    await websocket.send_json({
+                        "message": "Here's your generated image:",
+                        "image_url": image_url,
+                        "cost_info": cost_info
+                    })
+                    
+                    logger.info(
+                        f"Image generated successfully. "
+                        f"Cost: ${cost_info['request_cost']:.3f}, "
+                        f"Total: ${cost_info['total_cost']:.3f}"
+                    )
+                else:
+                    # Generate text response
+                    response = await gemini_api.generate_content(message, session_id)
+                    
+                    # Get cost information
+                    cost_info = {
+                        "request_cost": gemini_api.cost_tracker.get_session_costs(session_id).last_request_cost,
+                        "total_cost": gemini_api.cost_tracker.get_total_cost(session_id),
+                        "remaining_budget": gemini_api.cost_tracker.get_remaining_budget(session_id)
+                    }
+                    
+                    # Send response with cost information
+                    await websocket.send_json({
+                        "message": response,
+                        "cost_info": cost_info
+                    })
+                    
+                    logger.info(
+                        f"Sent response successfully. "
+                        f"Cost: ${cost_info['request_cost']:.3f}, "
+                        f"Total: ${cost_info['total_cost']:.3f}"
+                    )
             except ValueError as e:
                 # Budget exceeded
                 error_message = str(e)

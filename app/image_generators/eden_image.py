@@ -15,6 +15,7 @@ Design Decisions:
 - Saves generated images to logs/images directory
 - Default resolution set to 256x256 for balanced quality/speed
 - Supports mock responses for testing and cost saving (controlled via USE_IMAGE_MOCK_IF_AVAILABLE)
+- Uses async/await for non-blocking image generation
 
 Integration Notes:
 - Requires EDEN_API_KEY in environment variables
@@ -25,6 +26,7 @@ Integration Notes:
 
 import os
 import json
+import aiohttp
 import requests
 from datetime import datetime
 from pathlib import Path
@@ -74,16 +76,26 @@ class EdenImageGenerator:
         
         Args:
             request_data: Dictionary containing image generation details
+                        May include 'cost' from API response
             
         Returns:
             Calculated cost in dollars
+            
+        Note:
+            Base cost is set to 0.016 based on Eden AI's DALL-E 2 pricing for 256x256 images
         """
-        # TODO: Update with actual Eden AI pricing
-        base_cost = 0.02  # Placeholder cost
-        logger.debug(f"Calculated image generation cost: ${base_cost:.6f}")
+        # If cost is provided in the request data (from API response), use it
+        if 'cost' in request_data:
+            cost = float(request_data['cost'])
+            logger.debug(f"Using cost from API response: ${cost:.6f}")
+            return cost
+            
+        # Otherwise use base cost
+        base_cost = 0.016  # Eden AI's DALL-E 2 cost for 256x256 images
+        logger.debug(f"Using base cost: ${base_cost:.6f}")
         return base_cost
 
-    def _download_image(self, image_url: str, prompt: str) -> str:
+    async def _download_image(self, image_url: str, prompt: str) -> str:
         """
         Download and save the generated image.
         
@@ -95,8 +107,10 @@ class EdenImageGenerator:
             Path to the saved image
         """
         try:
-            response = requests.get(image_url)
-            response.raise_for_status()
+            async with aiohttp.ClientSession() as session:
+                async with session.get(image_url) as response:
+                    response.raise_for_status()
+                    image_content = await response.read()
             
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             safe_prompt = "".join(x for x in prompt[:30] if x.isalnum() or x in (' ', '-', '_')).strip()
@@ -106,7 +120,7 @@ class EdenImageGenerator:
             filepath = Path("logs/images") / filename
             
             with open(filepath, 'wb') as f:
-                f.write(response.content)
+                f.write(image_content)
                 
             logger.info(f"Image saved successfully at {filepath}")
             return str(filepath)
@@ -172,7 +186,7 @@ class EdenImageGenerator:
             logger.error(f"Failed to load mock response: {str(e)}")
             return None
 
-    def generate_image(
+    async def generate_image(
         self,
         prompt: str,
         session_id: str,
@@ -222,40 +236,16 @@ class EdenImageGenerator:
                 logger.debug(f"Sending request with payload: {json.dumps(payload, indent=2)}")
                 
                 # Make API request
-                response = requests.post(self.api_url, json=payload, headers=self.headers)
-                
-                # Log response details
-                logger.debug(f"Response status code: {response.status_code}")
-                
-                try:
-                    response_content = response.json()
-                    # Save response for future mock testing
-                    self._save_mock_response(response_content)
-                except json.JSONDecodeError as e:
-                    logger.error(f"Failed to parse response as JSON: {str(e)}")
-                    raise ValueError(f"Invalid JSON response from Eden AI: {str(e)}")
-                
-                response.raise_for_status()
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(self.api_url, json=payload, headers=self.headers) as response:
+                        response.raise_for_status()
+                        response_content = await response.json()
+                        
+                # Save response for future mock testing
+                self._save_mock_response(response_content)
             else:
                 logger.info("Using mock response for image generation")
 
-            def get_nested_keys(obj, prefix=''):
-                keys = []
-                if isinstance(obj, dict):
-                    for k, v in obj.items():
-                        new_key = f"{prefix}.{k}" if prefix else k
-                        keys.append(new_key)
-                        keys.extend(get_nested_keys(v, new_key))
-                elif isinstance(obj, list):
-                    for i, v in enumerate(obj):
-                        new_key = f"{prefix}[{i}]"
-                        keys.append(new_key)
-                        keys.extend(get_nested_keys(v, new_key))
-                return keys
-
-            # Replace verbose logging with just the structure
-            logger.debug(f"Response structure: {get_nested_keys(response_content)}")
-            
             # Parse response - expecting array format
             if not isinstance(response_content, list) or not response_content:
                 raise ValueError("Expected non-empty array response")
@@ -272,30 +262,28 @@ class EdenImageGenerator:
             # Get base64 image data from response
             try:
                 items = result['items']
-                # Remove verbose items logging
                 logger.debug(f"Found {len(items)} items in response")
                 image_data = items[0]['image']
                 logger.debug("Successfully extracted base64 image data from response")
             except (KeyError, IndexError) as e:
                 logger.error(f"Failed to extract image data from response: {str(e)}")
-                # Only log structure on error for debugging
                 logger.debug(f"Response structure: {json.dumps(items, indent=2)}")
                 raise ValueError("Could not find image data in response")
             
             # Save image
-            image_path = self._save_image(image_data, prompt)
+            image_path = await self._save_image(image_data, prompt)
             
-            # Track cost after successful generation
-            if response_content is None:  # Only track cost for real API calls
-                self.cost_tracker.calculate_cost(request_data, session_id)
+            # Track cost for both mock and real API calls
+            # If using mock, use the cost from the response if available, otherwise use calculated cost
+            if isinstance(response_content, list) and response_content and 'cost' in response_content[0]:
+                request_data['cost'] = response_content[0]['cost']
+            self.cost_tracker.calculate_cost(request_data, session_id)
             
             logger.info("Image generated successfully")
             return image_path
             
-        except requests.exceptions.RequestException as e:
+        except aiohttp.ClientError as e:
             logger.error(f"API request failed: {str(e)}")
-            if hasattr(e.response, 'text'):
-                logger.error(f"Error response content: {e.response.text}")
             raise
         except ValueError as e:
             logger.error(f"Invalid response: {str(e)}")
@@ -306,7 +294,7 @@ class EdenImageGenerator:
             logger.debug(f"Exception details: {str(e)}")
             raise
 
-    def _save_image(self, image_data: str, prompt: str) -> str:
+    async def _save_image(self, image_data: str, prompt: str) -> str:
         """
         Save the base64 image data to a file.
         

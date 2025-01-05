@@ -21,7 +21,7 @@
             </span>
         </div>
         <div id="messages"></div>
-        <input type="text" id="messageInput" placeholder="Type your message...">
+        <input type="text" id="messageInput" placeholder="Type your message... (start with '/image' to generate images)">
         <button onclick="sendMessage()">
             <i class="fas fa-paper-plane"></i> Send
         </button>
@@ -54,6 +54,14 @@
                 
                 // Add message content
                 message.innerHTML = '<strong>Bot:</strong> ' + data.message;
+                
+                // Add image if available
+                if (data.image_url) {
+                    message.innerHTML += `
+                        <div class="image-container">
+                            <img src="${data.image_url}" alt="Generated image" class="generated-image">
+                        </div>`;
+                }
                 
                 // Add cost information if available
                 if (data.cost_info) {
