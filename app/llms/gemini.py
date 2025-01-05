@@ -13,6 +13,7 @@ Design Decisions:
 - Implements retry mechanism for API failures
 - Includes proper error handling and logging
 - Supports async operations for better scalability
+- Maintains conversation history for contextual responses
 
 Integration Notes:
 - Requires GEMINI_API_KEY in environment variables
@@ -22,7 +23,7 @@ Integration Notes:
 
 import os
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import google.generativeai as genai
 from dotenv import load_dotenv
 
@@ -45,6 +46,7 @@ class GeminiAPI:
         self.configure()
         self.model = genai.GenerativeModel("gemini-1.5-flash")
         logger.info("GeminiAPI initialized successfully")
+        self.chats = {}  # Store chat sessions
 
     def configure(self) -> None:
         """Configure Gemini API with credentials."""
@@ -55,16 +57,24 @@ class GeminiAPI:
             logger.error(f"Failed to configure Gemini API: {str(e)}")
             raise
 
+    def get_or_create_chat(self, session_id: str):
+        """Get or create a new chat session for the given session ID."""
+        if session_id not in self.chats:
+            self.chats[session_id] = self.model.start_chat(history=[])
+        return self.chats[session_id]
+
     async def generate_content(
         self, 
-        prompt: str, 
+        prompt: str,
+        session_id: str,
         options: Optional[Dict[str, Any]] = None
     ) -> str:
         """
-        Generate content using Gemini API.
+        Generate content using Gemini API with conversation history.
         
         Args:
             prompt: The input prompt for content generation
+            session_id: Unique identifier for the chat session
             options: Optional configuration parameters
             
         Returns:
@@ -75,7 +85,8 @@ class GeminiAPI:
         """
         try:
             logger.debug(f"Generating content for prompt: {prompt[:50]}...")
-            response = self.model.generate_content(prompt)
+            chat = self.get_or_create_chat(session_id)
+            response = chat.send_message(prompt)
             logger.info("Content generated successfully")
             return response.text
         except Exception as e:

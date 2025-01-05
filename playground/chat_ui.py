@@ -3,10 +3,11 @@
 A minimal chat interface implementation using FastAPI and WebSocket.
 
 Design Decisions:
-- Uses in-memory chat history for simplicity
+- Uses WebSocket-based session management for chat history
 - Implements Gemini API integration through custom wrapper
 - Uses WebSocket for real-time communication
 - Simple HTML/JS frontend for chat interface
+- Maintains conversation context per WebSocket connection
 
 Integration Notes:
 - Requires GEMINI_API_KEY in environment variables
@@ -16,6 +17,7 @@ Integration Notes:
 import os
 import sys
 from pathlib import Path
+import uuid
 
 # Add parent directory to Python path for imports
 parent_dir = str(Path(__file__).parent.parent)
@@ -139,13 +141,17 @@ async def websocket_endpoint(websocket: WebSocket):
     """Handle WebSocket connections for chat."""
     await websocket.accept()
     
+    # Create a unique session ID for this connection
+    session_id = str(uuid.uuid4())
+    logger.info(f"New chat session started: {session_id}")
+    
     try:
         while True:
             message = await websocket.receive_text()
             logger.info(f"Received message: {message[:50]}...")
             
             try:
-                response = await gemini_api.generate_content(message)
+                response = await gemini_api.generate_content(message, session_id)
                 await websocket.send_text(response)
                 logger.info("Sent response successfully")
             except Exception as e:
