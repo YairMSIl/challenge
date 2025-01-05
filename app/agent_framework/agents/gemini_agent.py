@@ -17,12 +17,14 @@ Design Decisions:
 - Implements token-based cost calculation
 - Maintains chat history per session for context
 - Formats chat history for agent consumption
+- Supports image generation through Eden AI integration
 
 Integration Notes:
 - Requires GEMINI_API_KEY in environment variables
 - Configurable via logging config
 - Uses CostTracker for budget management
 - Compatible with existing chat UI structure
+- Integrates with Eden AI for image generation
 """
 
 import os
@@ -30,8 +32,10 @@ from typing import Optional, Dict, Any, List, Tuple
 from dotenv import load_dotenv
 from smolagents.agents import ToolCallingAgent
 from smolagents import tool, LiteLLMModel
+from app.models.artifact import Artifact
 from utils.logging_config import get_logger
 from app.cost_tracker.cost_tracker import CostTracker
+from app.agent_framework.tools.generate_image_eden_ai import EdenImageGenerationTool
 
 # Get logger instance
 logger = get_logger(__name__)
@@ -49,6 +53,7 @@ class GeminiAPIAgent:
         self.cost_tracker = CostTracker("gemini", self._calculate_request_cost)
         self.agent_sessions = {}  # Store agent sessions
         self.chat_histories = {}  # Store chat histories per session
+        self.session_artifacts = {} # Stores anything internal tools have created for reference
         logger.info("GeminiAPIAgent initialized successfully")
 
     def configure(self) -> None:
@@ -67,9 +72,11 @@ class GeminiAPIAgent:
     def get_or_create_agent(self, session_id: str) -> ToolCallingAgent:
         """Get or create a new agent session for the given session ID."""
         if session_id not in self.agent_sessions:
-            # Create agent with basic tools
+            self.session_artifacts[session_id] = []
+            
+            # Create agent with tools including image generation
             self.agent_sessions[session_id] = ToolCallingAgent(
-                tools=[],  # Add your tools here
+                tools=[EdenImageGenerationTool(session_id, artifacts=self.session_artifacts[session_id])],  # Pass the tool instance directly
                 model=self.model,
             )
             # Initialize chat history for this session
@@ -120,7 +127,6 @@ class GeminiAPIAgent:
         self, 
         prompt: str,
         session_id: str,
-        options: Optional[Dict[str, Any]] = None
     ) -> str:
         """
         Generate content using Gemini API with agent-based processing.
@@ -128,7 +134,6 @@ class GeminiAPIAgent:
         Args:
             prompt: The input prompt for content generation
             session_id: Unique identifier for the agent session
-            options: Optional configuration parameters
             
         Returns:
             Generated text content (final answer from agent)
@@ -166,7 +171,7 @@ class GeminiAPIAgent:
             agent_flow = {
                 'tool_calls': [],
                 'internal_messages': [],
-                'final_answer': final_answer
+                'final_answer': final_answer,
             }
             
             # Process execution trace

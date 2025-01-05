@@ -153,7 +153,7 @@ class EdenImageGenerator:
             logger.error(f"Failed to load mock response: {str(e)}")
             return None
 
-    async def generate_image(
+    def generate_image(
         self,
         prompt: str,
         session_id: str,
@@ -210,34 +210,34 @@ class EdenImageGenerator:
                 logger.debug(f"Sending request with payload: {json.dumps(payload, indent=2)}")
                 
                 # Make API request
-                async with aiohttp.ClientSession() as session:
-                    async with session.post(self.api_url, json=payload, headers=self.headers) as response:
-                        response.raise_for_status()
-                        response_content = await response.json()
-                        
-                        # Check for API-level errors
-                        if isinstance(response_content, list) and response_content:
-                            first_result = response_content[0]
-                            if 'error' in first_result:
-                                error_info = first_result['error']
-                                error_msg = error_info.get('message', 'Unknown API error')
-                                
-                                # Extract the actual OpenAI error message if available
-                                if 'Openai has returned an error:' in error_msg:
-                                    try:
-                                        openai_error = json.loads(error_msg.split('Openai has returned an error:', 1)[1])
-                                        error_msg = openai_error['error']['message']
-                                    except (json.JSONDecodeError, KeyError):
-                                        pass  # Keep original error message if parsing fails
-                                
-                                logger.error(f"API Error: {error_msg}")
-                                return {
-                                    "error": True,
-                                    "message": error_msg
-                                }
-                
-                        # Only save successful responses to mock
-                        self._save_mock_response(response_content)
+                with requests.Session() as session:
+                    response = session.post(self.api_url, json=payload, headers=self.headers)
+                    response.raise_for_status()
+                    response_content = response.json()
+                    
+                    # Check for API-level errors
+                    if isinstance(response_content, list) and response_content:
+                        first_result = response_content[0]
+                        if 'error' in first_result:
+                            error_info = first_result['error']
+                            error_msg = error_info.get('message', 'Unknown API error')
+                            
+                            # Extract the actual OpenAI error message if available
+                            if 'Openai has returned an error:' in error_msg:
+                                try:
+                                    openai_error = json.loads(error_msg.split('Openai has returned an error:', 1)[1])
+                                    error_msg = openai_error['error']['message']
+                                except (json.JSONDecodeError, KeyError):
+                                    pass  # Keep original error message if parsing fails
+                            
+                            logger.error(f"API Error: {error_msg}")
+                            return {
+                                "error": True,
+                                "message": error_msg
+                            }
+            
+                    # Only save successful responses to mock
+                    self._save_mock_response(response_content)
 
             # Parse response - expecting array format
             if not isinstance(response_content, list) or not response_content:
@@ -291,7 +291,7 @@ class EdenImageGenerator:
             # Save debug image if needed
             debug_path = None
             try:
-                debug_path = await self._save_image(image_data, prompt)
+                debug_path = self._save_image(image_data, prompt)
                 logger.debug(f"Debug image saved at: {debug_path}")
             except Exception as e:
                 logger.warning(f"Failed to save debug image: {str(e)}")
@@ -333,7 +333,7 @@ class EdenImageGenerator:
                 "message": error_msg
             }
 
-    async def _save_image(self, image_data: str, prompt: str) -> str:
+    def _save_image(self, image_data: str, prompt: str) -> str:
         """
         Save the base64 image data to a file.
         

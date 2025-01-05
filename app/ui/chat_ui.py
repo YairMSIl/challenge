@@ -27,6 +27,8 @@ import sys
 import json
 from pathlib import Path
 
+from app.models.artifact import ArtifactType
+
 # Add the project root to Python path
 project_root = str(Path(__file__).parent.parent.parent)
 if project_root not in sys.path:
@@ -85,11 +87,11 @@ async def websocket_endpoint(websocket: WebSocket):
             
             try:
                 # Check if this is an image generation request
-                is_image_request = message.lower().startswith(("/image", "generate image", "create image", "make image", "draw"))
+                is_image_request = message.lower().startswith(("/image"))
                 
                 if is_image_request:
                     # Generate image
-                    result = await eden_image_generator.generate_image(message, session_id)
+                    result = eden_image_generator.generate_image(message, session_id)
                     
                     # Check for errors
                     if result.get("error", False):
@@ -146,11 +148,21 @@ async def websocket_endpoint(websocket: WebSocket):
                     agent_flow = gemini_agent_api.get_agent_flow(session_id)
                     
                     # Send response with cost information and agent flow
-                    await websocket.send_json({
+                    ok_response_json = {
                         "message": response,
                         "cost_info": cost_info,
                         "agent_flow": agent_flow  # This will be available for debugging/monitoring
-                    })
+                    }
+
+                    # Check if we have artifacts to display
+                    for artifact in gemini_agent_api.session_artifacts[session_id]:
+                        if not artifact.is_new:
+                            continue
+
+                        if artifact.type == ArtifactType.IMAGE:
+                            ok_response_json["base64_image"] = artifact.content
+
+                    await websocket.send_json(ok_response_json)
                     
                     logger.info(
                         f"Sent response successfully. "
