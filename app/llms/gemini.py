@@ -22,17 +22,13 @@ Integration Notes:
 """
 
 import os
-import logging
 from typing import Optional, Dict, Any, List
 import google.generativeai as genai
 from dotenv import load_dotenv
+from utils.logging_config import get_logger
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# Get logger instance
+logger = get_logger(__name__)
 
 class GeminiAPI:
     def __init__(self):

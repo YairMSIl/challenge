@@ -1,0 +1,47 @@
+body { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#messages { 
+    height: 400px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+#messageInput { 
+    width: 80%; 
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button { 
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover { 
+    background: #0056b3; 
+}
+
+.message { 
+    margin: 10px 0; 
+}
+
+.user { 
+    color: #007bff; 
+}
+
+.bot { 
+    color: #28a745; 
+} 
