@@ -56,10 +56,10 @@
                 message.innerHTML = '<strong>Bot:</strong> ' + data.message;
                 
                 // Add image if available
-                if (data.image_url) {
+                if (data.base64_image) {
                     message.innerHTML += `
                         <div class="image-container">
-                            <img src="${data.image_url}" alt="Generated image" class="generated-image">
+                            <img src="data:image/png;base64,${data.base64_image}" alt="Generated image" class="generated-image">
                         </div>`;
                 }
                 

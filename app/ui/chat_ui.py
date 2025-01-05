@@ -10,6 +10,8 @@ Design Decisions:
 - Maintains conversation context per WebSocket connection
 - Includes real-time cost tracking and display
 - Supports image generation with Eden AI
+- Uses base64 for direct image display
+- Saves debug images to logs/images directory
 
 Integration Notes:
 - Requires GEMINI_API_KEY and EDEN_API_KEY in environment variables
@@ -17,7 +19,7 @@ Integration Notes:
 - Static files served from /static directory
 - Templates stored in /templates directory
 - Uses CostTracker for budget management
-- Generated images stored in logs/images directory
+- Debug images stored in logs/images directory
 """
 
 import os
@@ -87,7 +89,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 
                 if is_image_request:
                     # Generate image
-                    image_path = await eden_image_generator.generate_image(message, session_id)
+                    image_result = await eden_image_generator.generate_image(message, session_id)
                     
                     # Get cost information
                     cost_info = {
@@ -96,13 +98,10 @@ async def websocket_endpoint(websocket: WebSocket):
                         "remaining_budget": eden_image_generator.cost_tracker.get_remaining_budget(session_id)
                     }
                     
-                    # Convert image path to URL
-                    image_url = f"/images/{Path(image_path).name}"
-                    
-                    # Send response with image and cost information
+                    # Send response with base64 image and cost information
                     await websocket.send_json({
                         "message": "Here's your generated image:",
-                        "image_url": image_url,
+                        "base64_image": image_result["base64_image"],
                         "cost_info": cost_info
                     })
                     

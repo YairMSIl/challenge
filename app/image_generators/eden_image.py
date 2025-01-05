@@ -12,7 +12,8 @@ Design Decisions:
 - Uses OpenAI's model through Eden AI for optimal quality
 - Implements proper error handling and logging
 - Integrates with CostTracker for budget management
-- Saves generated images to logs/images directory
+- Returns base64 image data directly for UI display
+- Optionally saves debug images to logs/images directory
 - Default resolution set to 256x256 for balanced quality/speed
 - Supports mock responses for testing and cost saving (controlled via USE_IMAGE_MOCK_IF_AVAILABLE)
 - Uses async/await for non-blocking image generation
@@ -95,40 +96,6 @@ class EdenImageGenerator:
         logger.debug(f"Using base cost: ${base_cost:.6f}")
         return base_cost
 
-    async def _download_image(self, image_url: str, prompt: str) -> str:
-        """
-        Download and save the generated image.
-        
-        Args:
-            image_url: URL of the generated image
-            prompt: The prompt used to generate the image
-            
-        Returns:
-            Path to the saved image
-        """
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(image_url) as response:
-                    response.raise_for_status()
-                    image_content = await response.read()
-            
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            safe_prompt = "".join(x for x in prompt[:30] if x.isalnum() or x in (' ', '-', '_')).strip()
-            safe_prompt = safe_prompt.replace(' ', '_')
-            
-            filename = f"eden_{timestamp}_{safe_prompt}.png"
-            filepath = Path("logs/images") / filename
-            
-            with open(filepath, 'wb') as f:
-                f.write(image_content)
-                
-            logger.info(f"Image saved successfully at {filepath}")
-            return str(filepath)
-            
-        except Exception as e:
-            logger.error(f"Failed to download and save image: {str(e)}")
-            raise
-
     def _ensure_directories(self) -> None:
         """Ensure required directories exist."""
         # Ensure images directory
@@ -191,7 +158,7 @@ class EdenImageGenerator:
         prompt: str,
         session_id: str,
         options: Optional[Dict[str, Any]] = None
-    ) -> str:
+    ) -> Dict[str, str]:
         """
         Generate an image using Eden AI.
         
@@ -201,7 +168,9 @@ class EdenImageGenerator:
             options: Optional configuration parameters (resolution, etc.)
             
         Returns:
-            Path to the saved image
+            Dictionary containing:
+                - base64_image: Base64 encoded image data
+                - debug_path: Path to debug image file (if saved)
             
         Raises:
             Exception: If API call fails or budget exceeded
@@ -270,8 +239,13 @@ class EdenImageGenerator:
                 logger.debug(f"Response structure: {json.dumps(items, indent=2)}")
                 raise ValueError("Could not find image data in response")
             
-            # Save image
-            image_path = await self._save_image(image_data, prompt)
+            # Save debug image if needed
+            debug_path = None
+            try:
+                debug_path = await self._save_image(image_data, prompt)
+                logger.debug(f"Debug image saved at: {debug_path}")
+            except Exception as e:
+                logger.warning(f"Failed to save debug image: {str(e)}")
             
             # Track cost for both mock and real API calls
             # If using mock, use the cost from the response if available, otherwise use calculated cost
@@ -280,7 +254,10 @@ class EdenImageGenerator:
             self.cost_tracker.calculate_cost(request_data, session_id)
             
             logger.info("Image generated successfully")
-            return image_path
+            return {
+                "base64_image": image_data,
+                "debug_path": debug_path
+            }
             
         except aiohttp.ClientError as e:
             logger.error(f"API request failed: {str(e)}")
@@ -312,11 +289,10 @@ class EdenImageGenerator:
             
             image_bytes = base64.b64decode(image_data)
             
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             safe_prompt = "".join(x for x in prompt[:30] if x.isalnum() or x in (' ', '-', '_')).strip()
             safe_prompt = safe_prompt.replace(' ', '_')
             
-            filename = f"eden_{timestamp}_{safe_prompt}.png"
+            filename = f"eden_{safe_prompt}.png"
             filepath = Path("logs/images") / filename
             
             with open(filepath, 'wb') as f:
