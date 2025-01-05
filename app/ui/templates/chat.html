@@ -3,20 +3,70 @@
     <head>
         <title>Gemini Chat Interface</title>
         <link rel="stylesheet" href="/static/css/chat.css">
+        <!-- Add Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
         <h1>Gemini Chat Interface</h1>
+        <div id="cost-info">
+            <span>
+                <i class="fas fa-coins"></i>
+                <span class="cost-label">Session Cost:</span>
+                <span class="cost-value">$<span id="totalCost">0.00</span></span>
+            </span>
+            <span>
+                <i class="fas fa-wallet"></i>
+                <span class="cost-label">Remaining Budget:</span>
+                <span class="cost-value">$<span id="remainingBudget">25.00</span></span>
+            </span>
+        </div>
         <div id="messages"></div>
         <input type="text" id="messageInput" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
+        <button onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i> Send
+        </button>
         <script>
             var ws = new WebSocket("ws://" + window.location.host + "/ws");
             
+            function updateCostDisplay(costInfo) {
+                if (!costInfo) return;
+                
+                // Update total cost
+                const totalCostElement = document.getElementById('totalCost');
+                const remainingBudgetElement = document.getElementById('remainingBudget');
+                
+                totalCostElement.textContent = costInfo.total_cost.toFixed(3);
+                remainingBudgetElement.textContent = costInfo.remaining_budget.toFixed(2);
+                
+                // Add warning class if remaining budget is low (less than 20% of total)
+                if (costInfo.remaining_budget < 5) {  // 5$ is 20% of 25$ budget
+                    remainingBudgetElement.parentElement.classList.add('cost-warning');
+                } else {
+                    remainingBudgetElement.parentElement.classList.remove('cost-warning');
+                }
+            }
+            
             ws.onmessage = function(event) {
+                var data = JSON.parse(event.data);
                 var messages = document.getElementById('messages');
                 var message = document.createElement('div');
                 message.className = 'message bot';
-                message.innerHTML = '<strong>Bot:</strong> ' + event.data;
+                
+                // Add message content
+                message.innerHTML = '<strong>Bot:</strong> ' + data.message;
+                
+                // Add cost information if available
+                if (data.cost_info) {
+                    message.innerHTML += `
+                        <div class="cost-info">
+                            <i class="fas fa-receipt"></i>
+                            Request Cost: $${data.cost_info.request_cost.toFixed(3)}
+                        </div>`;
+                    
+                    // Update overall cost display
+                    updateCostDisplay(data.cost_info);
+                }
+                
                 messages.appendChild(message);
                 messages.scrollTop = messages.scrollHeight;
             };

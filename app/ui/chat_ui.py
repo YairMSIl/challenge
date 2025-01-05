@@ -8,16 +8,19 @@ Design Decisions:
 - Uses WebSocket for real-time communication
 - Templated HTML/CSS frontend for chat interface
 - Maintains conversation context per WebSocket connection
+- Includes real-time cost tracking and display
 
 Integration Notes:
 - Requires GEMINI_API_KEY in environment variables
 - Runs on default port 8000
 - Static files served from /static directory
 - Templates stored in /templates directory
+- Uses CostTracker for budget management
 """
 
 import os
 import sys
+import json
 from pathlib import Path
 
 # Add the project root to Python path
@@ -71,13 +74,44 @@ async def websocket_endpoint(websocket: WebSocket):
             logger.info(f"Received message: {message[:50]}...")
             
             try:
+                # Generate response
                 response = await gemini_api.generate_content(message, session_id)
-                await websocket.send_text(response)
-                logger.info("Sent response successfully")
+                
+                # Get cost information
+                cost_info = {
+                    "request_cost": gemini_api.cost_tracker.get_session_costs(session_id).last_request_cost,
+                    "total_cost": gemini_api.cost_tracker.get_total_cost(session_id),
+                    "remaining_budget": gemini_api.cost_tracker.get_remaining_budget(session_id)
+                }
+                
+                # Send response with cost information
+                await websocket.send_json({
+                    "message": response,
+                    "cost_info": cost_info
+                })
+                
+                logger.info(
+                    f"Sent response successfully. "
+                    f"Cost: ${cost_info['request_cost']:.3f}, "
+                    f"Total: ${cost_info['total_cost']:.3f}"
+                )
+            except ValueError as e:
+                # Budget exceeded
+                error_message = str(e)
+                await websocket.send_json({
+                    "message": f"Error: {error_message}",
+                    "cost_info": {
+                        "total_cost": gemini_api.cost_tracker.get_total_cost(session_id),
+                        "remaining_budget": gemini_api.cost_tracker.get_remaining_budget(session_id)
+                    }
+                })
+                logger.error(error_message)
             except Exception as e:
                 error_message = f"Error generating response: {str(e)}"
+                await websocket.send_json({
+                    "message": "Sorry, I encountered an error processing your request."
+                })
                 logger.error(error_message)
-                await websocket.send_text("Sorry, I encountered an error processing your request.")
     except Exception as e:
         logger.error(f"WebSocket error: {str(e)}")
 
