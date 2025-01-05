@@ -26,76 +26,121 @@
             <i class="fas fa-paper-plane"></i> Send
         </button>
         <script>
-            var ws = new WebSocket("ws://" + window.location.host + "/ws");
-            
+            let ws = new WebSocket("ws://" + window.location.host + "/ws");
+            let messages = document.getElementById("messages");
+            let messageInput = document.getElementById("messageInput");
+            let costInfo = document.getElementById("cost-info");
+
             function updateCostDisplay(costInfo) {
-                if (!costInfo) return;
+                if (!costInfo) return;  // Skip update if no cost info available
                 
-                // Update total cost
+                // Update total cost and remaining budget
                 const totalCostElement = document.getElementById('totalCost');
                 const remainingBudgetElement = document.getElementById('remainingBudget');
                 
-                totalCostElement.textContent = costInfo.total_cost.toFixed(3);
-                remainingBudgetElement.textContent = costInfo.remaining_budget.toFixed(2);
-                
-                // Add warning class if remaining budget is low (less than 20% of total)
-                if (costInfo.remaining_budget < 5) {  // 5$ is 20% of 25$ budget
-                    remainingBudgetElement.parentElement.classList.add('cost-warning');
-                } else {
-                    remainingBudgetElement.parentElement.classList.remove('cost-warning');
+                // Only update if we have valid numbers
+                if (typeof costInfo.total_cost === 'number') {
+                    totalCostElement.textContent = costInfo.total_cost.toFixed(3);
+                }
+                if (typeof costInfo.remaining_budget === 'number') {
+                    remainingBudgetElement.textContent = costInfo.remaining_budget.toFixed(2);
+                    
+                    // Add warning class if remaining budget is low
+                    if (costInfo.remaining_budget < 5) {
+                        remainingBudgetElement.parentElement.classList.add('cost-warning');
+                    } else {
+                        remainingBudgetElement.parentElement.classList.remove('cost-warning');
+                    }
                 }
             }
-            
+
+            function appendMessage(message, isUser = false) {
+                const messageDiv = document.createElement("div");
+                messageDiv.className = isUser ? "message user" : "message bot";
+                messageDiv.innerHTML = `<strong>${isUser ? "You" : "Bot"}:</strong> ${message}`;
+                messages.appendChild(messageDiv);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            function appendError(title, message) {
+                const errorDiv = document.createElement("div");
+                errorDiv.className = "error-card";
+                
+                const titleDiv = document.createElement("div");
+                titleDiv.className = "error-title";
+                titleDiv.textContent = title;
+                
+                const messageDiv = document.createElement("p");
+                messageDiv.className = "error-message";
+                messageDiv.textContent = message;
+                
+                errorDiv.appendChild(titleDiv);
+                errorDiv.appendChild(messageDiv);
+                messages.appendChild(errorDiv);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
             ws.onmessage = function(event) {
-                var data = JSON.parse(event.data);
-                var messages = document.getElementById('messages');
-                var message = document.createElement('div');
-                message.className = 'message bot';
+                const data = JSON.parse(event.data);
                 
-                // Add message content
-                message.innerHTML = '<strong>Bot:</strong> ' + data.message;
-                
-                // Add image if available
-                if (data.base64_image) {
-                    message.innerHTML += `
-                        <div class="image-container">
-                            <img src="data:image/png;base64,${data.base64_image}" alt="Generated image" class="generated-image">
-                        </div>`;
-                }
-                
-                // Add cost information if available
+                // Update cost information
                 if (data.cost_info) {
-                    message.innerHTML += `
-                        <div class="cost-info">
-                            <i class="fas fa-receipt"></i>
-                            Request Cost: $${data.cost_info.request_cost.toFixed(3)}
-                        </div>`;
-                    
-                    // Update overall cost display
                     updateCostDisplay(data.cost_info);
                 }
                 
-                messages.appendChild(message);
-                messages.scrollTop = messages.scrollHeight;
-            };
-            
-            function sendMessage() {
-                var input = document.getElementById("messageInput");
-                if (input.value) {
-                    var messages = document.getElementById('messages');
-                    var message = document.createElement('div');
-                    message.className = 'message user';
-                    message.innerHTML = '<strong>You:</strong> ' + input.value;
-                    messages.appendChild(message);
+                // Handle error messages
+                if (data.message && data.message.startsWith("Error:")) {
+                    const errorMessage = data.message.substring(7).trim();  // Remove "Error: " prefix
                     
+                    // Determine if this is a known error type and format accordingly
+                    if (errorMessage.includes("Prompt must be length")) {
+                        appendError(
+                            "Prompt Too Long",
+                            errorMessage
+                        );
+                    } else if (errorMessage.includes("budget exceeded")) {
+                        appendError(
+                            "Budget Exceeded",
+                            errorMessage
+                        );
+                    } else {
+                        appendError(
+                            "Error",
+                            errorMessage
+                        );
+                    }
+                    return;
+                }
+                
+                // Handle normal messages
+                if (data.message) {
+                    appendMessage(data.message, false);
+                }
+                
+                // Handle images
+                if (data.base64_image) {
+                    const imgDiv = document.createElement("div");
+                    imgDiv.className = "message bot";
+                    const img = document.createElement("img");
+                    img.src = "data:image/png;base64," + data.base64_image;
+                    img.className = "generated-image";
+                    imgDiv.appendChild(img);
+                    messages.appendChild(imgDiv);
+                    messages.scrollTop = messages.scrollHeight;
+                }
+            };
+
+            function sendMessage() {
+                var input = messageInput;
+                if (input.value) {
+                    appendMessage(input.value, true);
                     ws.send(input.value);
                     input.value = '';
-                    messages.scrollTop = messages.scrollHeight;
                 }
             }
             
             // Allow sending message with Enter key
-            document.getElementById("messageInput").addEventListener("keypress", function(e) {
+            messageInput.addEventListener("keypress", function(e) {
                 if (e.key === "Enter") {
                     sendMessage();
                 }

@@ -89,9 +89,30 @@ async def websocket_endpoint(websocket: WebSocket):
                 
                 if is_image_request:
                     # Generate image
-                    image_result = await eden_image_generator.generate_image(message, session_id)
+                    result = await eden_image_generator.generate_image(message, session_id)
                     
-                    # Get cost information
+                    # Check for errors
+                    if result.get("error", False):
+                        error_message = result.get("message", "Unknown error occurred during image generation")
+                        
+                        # Try to get cost info, use None if not available
+                        try:
+                            cost_info = {
+                                "request_cost": eden_image_generator.cost_tracker.get_session_costs(session_id).last_request_cost,
+                                "total_cost": eden_image_generator.cost_tracker.get_total_cost(session_id),
+                                "remaining_budget": eden_image_generator.cost_tracker.get_remaining_budget(session_id)
+                            }
+                        except (AttributeError, Exception) as e:
+                            logger.debug(f"Could not get cost info during error: {str(e)}")
+                            cost_info = None
+                            
+                        await websocket.send_json({
+                            "message": f"Error: {error_message}",
+                            "cost_info": cost_info
+                        })
+                        continue
+                    
+                    # Get cost information for successful requests
                     cost_info = {
                         "request_cost": eden_image_generator.cost_tracker.get_session_costs(session_id).last_request_cost,
                         "total_cost": eden_image_generator.cost_tracker.get_total_cost(session_id),
@@ -101,7 +122,7 @@ async def websocket_endpoint(websocket: WebSocket):
                     # Send response with base64 image and cost information
                     await websocket.send_json({
                         "message": "Here's your generated image:",
-                        "base64_image": image_result["base64_image"],
+                        "base64_image": result["base64_image"],
                         "cost_info": cost_info
                     })
                     

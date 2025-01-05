@@ -1,0 +1,12 @@
+[
+  {
+    "error": {
+      "message": "Openai has returned an error: {\n  \"error\": {\n    \"code\": null,\n    \"message\": \"Prompt must be length 1000 or less. Your prompt length is 1972. Please reduce your prompt length.\",\n    \"param\": null,\n    \"type\": \"invalid_request_error\"\n  }\n}\n",
+      "type": "ProviderException"
+    },
+    "status": "fail",
+    "provider": "openai",
+    "provider_status_code": 400,
+    "cost": 0.0
+  }
+]
