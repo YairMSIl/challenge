@@ -38,7 +38,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uuid
 
-from app.llms.gemini_agent import gemini_agent_api
+from app.agent_framework.agents.gemini_agent import gemini_agent_api
 from app.image_generators.eden_image import eden_image_generator
 from utils.logging_config import get_logger
 
