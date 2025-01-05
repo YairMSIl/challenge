@@ -54,10 +54,75 @@
                 }
             }
 
-            function appendMessage(message, isUser = false) {
+            function appendMessage(message, isUser = false, costInfo = null, agentFlow = null) {
                 const messageDiv = document.createElement("div");
                 messageDiv.className = isUser ? "message user" : "message bot";
-                messageDiv.innerHTML = `<strong>${isUser ? "You" : "Bot"}:</strong> ${message}`;
+                
+                // Create message content
+                const messageContent = document.createElement("div");
+                messageContent.className = "message-content";
+                messageContent.innerHTML = `<strong>${isUser ? "You" : "Bot"}:</strong> ${message}`;
+                messageDiv.appendChild(messageContent);
+                
+                // Create chips container for bot messages
+                if (!isUser && (costInfo || agentFlow)) {
+                    const chipsContainer = document.createElement("div");
+                    chipsContainer.className = "message-chips";
+                    
+                    // Add cost chip if available
+                    if (costInfo && costInfo.request_cost) {
+                        const costChip = document.createElement("div");
+                        costChip.className = "message-cost-chip";
+                        costChip.innerHTML = `<i class="fas fa-coins"></i> $${costInfo.request_cost.toFixed(3)}`;
+                        chipsContainer.appendChild(costChip);
+                    }
+                    
+                    // Add agent flow chip if available
+                    if (agentFlow) {
+                        const flowChip = document.createElement("div");
+                        flowChip.className = "agent-flow-chip collapsed";
+                        
+                        const flowHeader = document.createElement("div");
+                        flowHeader.className = "agent-flow-header";
+                        flowHeader.innerHTML = `<i class="fas fa-code-branch"></i> Agent Flow <i class="fas fa-chevron-down"></i>`;
+                        
+                        const flowContent = document.createElement("div");
+                        flowContent.className = "agent-flow-content";
+                        
+                        // Format agent flow content
+                        let formattedFlow = '';
+                        if (agentFlow.tool_calls) {
+                            agentFlow.tool_calls.forEach((call, index) => {
+                                formattedFlow += `<div class="tool-call">
+                                    <div class="tool-call-name">${call.name}</div>
+                                    <pre>${JSON.stringify(call.parameters, null, 2)}</pre>
+                                    ${call.result ? `<div class="tool-result">Result: ${call.result}</div>` : ''}
+                                </div>`;
+                            });
+                        }
+                        
+                        if (agentFlow.internal_messages) {
+                            agentFlow.internal_messages.forEach(msg => {
+                                formattedFlow += `<div class="internal-message">${msg}</div>`;
+                            });
+                        }
+                        
+                        flowContent.innerHTML = formattedFlow || JSON.stringify(agentFlow, null, 2);
+                        
+                        flowChip.appendChild(flowHeader);
+                        flowChip.appendChild(flowContent);
+                        
+                        // Add click handler for expansion
+                        flowHeader.addEventListener("click", () => {
+                            flowChip.classList.toggle("collapsed");
+                        });
+                        
+                        chipsContainer.appendChild(flowChip);
+                    }
+                    
+                    messageDiv.appendChild(chipsContainer);
+                }
+                
                 messages.appendChild(messageDiv);
                 messages.scrollTop = messages.scrollHeight;
             }
@@ -112,9 +177,9 @@
                     return;
                 }
                 
-                // Handle normal messages
+                // Handle normal messages with cost and agent flow
                 if (data.message) {
-                    appendMessage(data.message, false);
+                    appendMessage(data.message, false, data.cost_info, data.agent_flow);
                 }
                 
                 // Handle images

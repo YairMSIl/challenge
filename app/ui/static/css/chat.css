@@ -80,21 +80,137 @@ button:hover {
     background: #0056b3; 
 }
 
-.message { 
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    background: #f8f9fa;
+.message {
+    position: relative;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
 }
 
-.user { 
-    color: #007bff;
-    border-left: 3px solid #007bff;
+.message.bot {
+    background-color: #f0f0f0;
+    margin-right: auto;
+    color: #333;
 }
 
-.bot { 
+.message.user {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
+}
+
+.message-content {
+    margin-bottom: 8px;
+}
+
+/* Nested chips container */
+.message-chips {
+    margin-left: 20px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+    margin-top: 8px;
+}
+
+/* Message cost chip */
+.message-cost-chip {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 0.85em;
+    color: #666;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+}
+
+.message-cost-chip i {
+    margin-right: 6px;
+    color: #ffd700;
+}
+
+/* Agent flow chip */
+.agent-flow-chip {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.agent-flow-header {
+    padding: 8px 12px;
+    background-color: #fff;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 0.85em;
+    border-bottom: 1px solid #eee;
+}
+
+.agent-flow-header:hover {
+    background-color: #f8f8f8;
+}
+
+.agent-flow-header i.fa-code-branch {
+    margin-right: 6px;
     color: #28a745;
+}
+
+.agent-flow-header i.fa-chevron-down {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+.agent-flow-content {
+    padding: 12px;
+    margin: 0;
+    background-color: #fff;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+}
+
+.agent-flow-chip.collapsed .agent-flow-content {
+    display: none;
+}
+
+.agent-flow-chip.collapsed .agent-flow-header i.fa-chevron-down {
+    transform: rotate(0deg);
+}
+
+.agent-flow-chip:not(.collapsed) .agent-flow-header i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Tool call styling within agent flow */
+.tool-call {
+    margin: 8px 0;
+    padding: 8px;
+    background: #f8f8f8;
     border-left: 3px solid #28a745;
+    border-radius: 4px;
+}
+
+.tool-call-name {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.internal-message {
+    margin: 8px 0;
+    padding: 8px;
+    background: #f8f8f8;
+    border-left: 3px solid #007bff;
+    border-radius: 4px;
+    color: #666;
 }
 
 .image-container {
@@ -140,4 +256,98 @@ button:hover {
 .error-card .error-title::before {
     content: "⚠️";
     font-size: 1.2em;
+}
+
+/* Message cost chip */
+.message-cost-chip {
+    display: inline-block;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    padding: 4px 8px;
+    margin-top: 8px;
+    font-size: 0.8em;
+    color: #666;
+}
+
+.message-cost-chip i {
+    margin-right: 4px;
+    color: #ffd700;
+}
+
+/* Agent flow chip */
+.agent-flow-chip {
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+.agent-flow-header {
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.agent-flow-header:hover {
+    background-color: #e8e8e8;
+}
+
+.agent-flow-header i {
+    margin-right: 6px;
+}
+
+.agent-flow-header i:last-child {
+    margin-right: 0;
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+.agent-flow-content {
+    padding: 12px;
+    margin: 0;
+    background-color: #fff;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.agent-flow-chip.collapsed .agent-flow-content {
+    display: none;
+}
+
+.agent-flow-chip.collapsed .agent-flow-header i:last-child {
+    transform: rotate(0deg);
+}
+
+.agent-flow-chip:not(.collapsed) .agent-flow-header i:last-child {
+    transform: rotate(180deg);
+}
+
+/* Ensure messages have proper spacing for new components */
+.message {
+    position: relative;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message.bot {
+    background-color: #f0f0f0;
+    margin-right: auto;
+}
+
+.message.user {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
 } 

@@ -38,7 +38,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uuid
 
-from app.llms.gemini import gemini_api
+from app.llms.gemini_agent import gemini_agent_api
 from app.image_generators.eden_image import eden_image_generator
 from utils.logging_config import get_logger
 
@@ -133,19 +133,23 @@ async def websocket_endpoint(websocket: WebSocket):
                     )
                 else:
                     # Generate text response
-                    response = await gemini_api.generate_content(message, session_id)
+                    response = await gemini_agent_api.generate_content(message, session_id)
                     
                     # Get cost information
                     cost_info = {
-                        "request_cost": gemini_api.cost_tracker.get_session_costs(session_id).last_request_cost,
-                        "total_cost": gemini_api.cost_tracker.get_total_cost(session_id),
-                        "remaining_budget": gemini_api.cost_tracker.get_remaining_budget(session_id)
+                        "request_cost": gemini_agent_api.cost_tracker.get_session_costs(session_id).last_request_cost,
+                        "total_cost": gemini_agent_api.cost_tracker.get_total_cost(session_id),
+                        "remaining_budget": gemini_agent_api.cost_tracker.get_remaining_budget(session_id)
                     }
                     
-                    # Send response with cost information
+                    # Get agent flow for debugging/monitoring
+                    agent_flow = gemini_agent_api.get_agent_flow(session_id)
+                    
+                    # Send response with cost information and agent flow
                     await websocket.send_json({
                         "message": response,
-                        "cost_info": cost_info
+                        "cost_info": cost_info,
+                        "agent_flow": agent_flow  # This will be available for debugging/monitoring
                     })
                     
                     logger.info(
@@ -159,8 +163,8 @@ async def websocket_endpoint(websocket: WebSocket):
                 await websocket.send_json({
                     "message": f"Error: {error_message}",
                     "cost_info": {
-                        "total_cost": gemini_api.cost_tracker.get_total_cost(session_id),
-                        "remaining_budget": gemini_api.cost_tracker.get_remaining_budget(session_id)
+                        "total_cost": gemini_agent_api.cost_tracker.get_total_cost(session_id),
+                        "remaining_budget": gemini_agent_api.cost_tracker.get_remaining_budget(session_id)
                     }
                 })
                 logger.error(error_message)
