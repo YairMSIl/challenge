@@ -1,0 +1,17 @@
+# Core Dependencies
+google-generativeai>=0.3.0    # Gemini API
+python-dotenv>=1.0.0          # Environment management
+smolagents>=0.0.1            # Agent framework
+websockets>=12.0             # WebSocket support
+fastapi>=0.109.0             # REST API support
+pydantic>=2.0.0              # Data validation
+funcchain>=0.3.0             # Function chaining support
+
+# Web Dependencies
+uvicorn>=0.27.0              # ASGI server
+aiofiles>=23.2.0             # Async file handling
+python-multipart>=0.0.6      # File upload support
+fastui_chat>=0.1.0           # Chat UI framework
+
+# Logging and Monitoring
+colorlog>=6.8.0              # Colored logging output
