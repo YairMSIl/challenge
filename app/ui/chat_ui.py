@@ -136,6 +136,9 @@ async def websocket_endpoint(websocket: WebSocket):
                 else:
                     # Generate text response
                     response = await gemini_agent_api.generate_content(message, session_id)
+                    # TODO: Use the below snippet to extract tool_calls for the UI
+                    # for i, log in enumerate(gemini_agent_api.get_or_create_agent(session_id).logs):
+                    #     logger.warning(f"Log {i}: {log}")
                     
                     # Get cost information
                     cost_info = {

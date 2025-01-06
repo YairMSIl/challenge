@@ -116,7 +116,7 @@ class EdenImageGenerationTool(Tool):
 
             return ImageGenerationResponse(
                 success=True,
-                message="Image generated successfully. Please see artifacts.",
+                message="Image generated successfully. Note: The image is displayed in the UI for the user in the artifacts section.",
                 error=None
             ).to_string()
             
