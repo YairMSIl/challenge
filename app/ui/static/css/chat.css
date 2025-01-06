@@ -350,4 +350,70 @@ button:hover {
     background-color: #007bff;
     color: white;
     margin-left: auto;
+}
+
+/* Audio player container */
+.audio-container {
+    margin: 10px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.audio-controls button {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+}
+
+.audio-controls button:hover {
+    background: #0056b3;
+}
+
+.audio-controls button.playing {
+    background: #dc3545;
+}
+
+.audio-controls button.playing:hover {
+    background: #c82333;
+}
+
+.audio-progress {
+    flex-grow: 1;
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.audio-progress-bar {
+    height: 100%;
+    background: #007bff;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.audio-time {
+    font-size: 0.8em;
+    color: #6c757d;
+    min-width: 60px;
+    text-align: center;
 } 

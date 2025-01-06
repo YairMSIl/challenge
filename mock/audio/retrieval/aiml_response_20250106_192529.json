@@ -1,0 +1,10 @@
+{
+  "id": "77a9c586-59f0-44e4-9e08-14aa6c2f2b15:stable-audio",
+  "status": "completed",
+  "audio_file": {
+    "url": "https://cdn.aimlapi.com/octopus/files/e120fbf5850440d79c364ef547b2ff4f_tmp8lg3ttjl.wav",
+    "content_type": "application/octet-stream",
+    "file_name": "tmp8lg3ttjl.wav",
+    "file_size": 1764078
+  }
+}

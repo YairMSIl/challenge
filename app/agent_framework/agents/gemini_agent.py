@@ -32,6 +32,7 @@ from typing import Optional, Dict, Any, List, Tuple
 from dotenv import load_dotenv
 from smolagents.agents import ToolCallingAgent
 from smolagents import tool, LiteLLMModel
+from app.agent_framework.tools.aiml_audio_generator_tool import AIMLAudioGeneratorTool
 from app.models.artifact import Artifact
 from utils.logging_config import get_logger
 from app.cost_tracker.cost_tracker import CostTracker
@@ -79,7 +80,8 @@ class GeminiAPIAgent:
             self.agent_sessions[session_id] = ToolCallingAgent(
                 tools=[
                     EdenImageGenerationTool(session_id, artifacts=self.session_artifacts[session_id]),
-                    ResearchTool(session_id=session_id)  # Pass session_id to ResearchTool
+                    ResearchTool(session_id=session_id),  # Pass session_id to ResearchTool
+                    AIMLAudioGeneratorTool(session_id=session_id, artifacts=self.session_artifacts[session_id])
                 ],
                 model=self.model,
             )

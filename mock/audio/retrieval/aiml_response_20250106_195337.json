@@ -1,0 +1,10 @@
+{
+  "id": "a017b5e7-aabc-4d47-af91-1cdca85d0df0:stable-audio",
+  "status": "completed",
+  "audio_file": {
+    "url": "https://cdn.aimlapi.com/octopus/files/c39e888b50b14d00a0987b6bd7c0a401_tmpzqb129zt.wav",
+    "content_type": "application/octet-stream",
+    "file_name": "tmpzqb129zt.wav",
+    "file_size": 1764078
+  }
+}

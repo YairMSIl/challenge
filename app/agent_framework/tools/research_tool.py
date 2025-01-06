@@ -15,8 +15,6 @@ Design Decisions:
 - Maintains session-aware operation per research query
 - Integrates with logging system for debugging
 - Uses proper response serialization
-- Uses async/await for proper coroutine handling
-- Implements SmolAgents async tool interface
 
 Integration Notes:
 - Requires GEMINI_API_KEY and GOOGLE_API_KEY in environment variables

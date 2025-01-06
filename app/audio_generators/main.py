@@ -1,76 +1,76 @@
-"""Suno Audio Generator Demo
-=====================
+"""Audio Generation Demo
+===================
 
-Demonstrates the usage of the SunoAudioGenerator class for generating audio from text prompts.
+Demonstrates the usage of the AIML API audio generation functionality.
 
-This script shows:
-1. Basic audio generation
-2. Error handling
-3. Using custom options
-4. Mock response handling
+This script provides examples of:
+- Basic audio generation
+- Mock response handling
+- Different configuration options
+- Error handling
 
-Usage:
-    python -m app.audio_generators.main
+Design Decisions:
+- Implements mock support for testing
+- Provides multiple example configurations
+- Demonstrates error handling patterns
 
-Note:
-    Requires SUNO_API_KEY in environment variables
-    USE_AUDIO_MOCK_IF_AVAILABLE controls mock usage (defaults to True)
+Integration Notes:
+- Set USE_AUDIO_MOCK_IF_AVAILABLE in .env to control mock usage
+- Audio files are saved to logs/audio
+- Mock responses are saved to mock/audio
 """
 
-import asyncio
-import uuid
+import os
+import sys
 from pathlib import Path
-from typing import Dict, Any
-from .sunobox import suno_audio_generator
+
+# Add project root to Python path
+project_root = str(Path(__file__).parent.parent.parent)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from dotenv import load_dotenv
+from app.audio_generators.aiml_api import generate_audio, AudioGenerationConfig, AudioGenerator
 from utils.logging_config import get_logger
 
-# Get logger instance
+# Initialize logging
 logger = get_logger(__name__)
 
-async def generate_sample_audio(prompt: str, options: Dict[str, Any] = None) -> None:
-    """
-    Generate a sample audio file from the given prompt.
-    
-    Args:
-        prompt: Text prompt for audio generation
-        options: Optional parameters for generation
-    """
+def generate_sample_audio():
+    """Generate sample audio with different configurations."""
     try:
-        # Generate a unique session ID
-        session_id = str(uuid.uuid4())
-        
-        # Generate audio
-        result = await suno_audio_generator.generate_audio(
-            prompt=prompt,
-            session_id=session_id,
-            options=options
+        # Example: Basic audio generation
+        logger.info("Generating peaceful piano melody...")
+        audio_file = generate_audio(
+            prompt="A peaceful piano melody with soft strings in the background",
+            duration=10
         )
-        
-        if result["error"]:
-            logger.error(f"Failed to generate audio: {result['message']}")
-            return
-            
-        # Print the path to the generated audio
-        audio_path = Path(result["audio_path"])
-        logger.info(f"Audio generated successfully!")
-        logger.info(f"Audio file saved at: {audio_path}")
-        logger.info(f"File size: {audio_path.stat().st_size / 1024:.2f} KB")
-        
-    except Exception as e:
-        logger.error(f"Error in generate_sample_audio: {str(e)}")
+        logger.info(f"Piano melody generated: {audio_file}")
 
-async def main():
-    """Main demonstration function."""
-    try:
-        # Example 1: Basic audio generation
-        logger.info("Example 1: Basic audio generation")
-        await generate_sample_audio(
-            prompt="A cheerful melody with piano and strings"
-        )
-        
     except Exception as e:
-        logger.error(f"Error in main: {str(e)}")
+        logger.error(f"Error during audio generation: {str(e)}")
+        raise
+
+def main():
+    """Main entry point for the demo."""
+    try:
+        # Load environment variables
+        load_dotenv()
+        
+        # Create necessary directories
+        Path("logs/audio").mkdir(parents=True, exist_ok=True)
+        Path("mock/audio").mkdir(parents=True, exist_ok=True)
+
+        logger.info("Starting audio generation demo...")
+        generate_sample_audio()
+        logger.info("Demo completed successfully!")
+
+    except Exception as e:
+        logger.error(f"Demo failed: {str(e)}")
+        return 1
+
+    return 0
 
 if __name__ == "__main__":
-    # Run the async main function
-    asyncio.run(main()) 
+    exit_code = main()
+    exit(exit_code) 

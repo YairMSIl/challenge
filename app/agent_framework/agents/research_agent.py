@@ -21,7 +21,6 @@ Design Decisions:
 - Instance-based design: Each ResearchAgent instance represents a unique session
 - Uses Google Custom Search API for web search capabilities
 - Implements source validation and credibility checking
-- Properly handles async/await for coroutine resolution
 
 Integration Notes:
 - Requires GEMINI_API_KEY and GOOGLE_API_KEY in environment variables
