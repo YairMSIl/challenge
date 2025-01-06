@@ -161,6 +161,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
                         if artifact.type == ArtifactType.IMAGE:
                             ok_response_json["base64_image"] = artifact.content
+                            artifact.is_new = False
 
                     await websocket.send_json(ok_response_json)
                     

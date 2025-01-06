@@ -10,7 +10,7 @@ class ArtifactType(Enum):
     RESEARCH = auto()
 
 
-@dataclass(frozen=True)
+@dataclass()
 class Artifact:
     """Represents a generated artifact like an image or text response."""
     type: ArtifactType
