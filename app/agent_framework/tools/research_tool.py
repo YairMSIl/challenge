@@ -100,8 +100,14 @@ class ResearchTool(Tool):
             # Create a new research agent instance for this request
             research_agent = ResearchAgent(session_id=self.session_id)
             
-            # Get the research report
+            # Get the research report and sanitize it
             report = research_agent.generate_research(query)
+            
+            # Normalize newlines and remove any escaped characters
+            report = report.replace('\\n', '\n')  # Convert escaped newlines to actual newlines
+            report = report.replace('\\t', '\t')  # Convert escaped tabs to actual tabs
+            report = report.replace('\\"', '"')   # Convert escaped quotes to actual quotes
+            report = report.strip()               # Remove any leading/trailing whitespace
             
             # Store research result as an artifact
             self.artifacts.append(Artifact(

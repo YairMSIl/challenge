@@ -40,8 +40,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uuid
 
-from app.agent_framework.agents.gemini_agent import gemini_agent_api
-from app.image_generators.eden_image import eden_image_generator
+from app.agent_framework.agents.gemini_agent import GeminiAPIAgent
+from app.image_generators.eden_image import EdenImageGenerator
 from utils.logging_config import get_logger
 
 # Get logger instance
@@ -84,6 +84,8 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             message = await websocket.receive_text()
             logger.info(f"Received message: {message[:50]}...")
+            eden_image_generator = EdenImageGenerator() 
+            gemini_agent_api = GeminiAPIAgent() 
             
             try:
                 # Check if this is an image generation request
@@ -159,7 +161,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
                     # Check if we have artifacts to display
                     for artifact in gemini_agent_api.session_artifacts[session_id]:
-                        logger.warning(f"Artifact: {artifact}")
                         if not artifact.is_new:
                             continue
 
