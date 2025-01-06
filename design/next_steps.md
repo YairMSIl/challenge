@@ -22,7 +22,7 @@ Tidy up the code:
 
 
 Bugs:
-1) 
+1) Audio controls look aweful
 
 
 To Figure:
