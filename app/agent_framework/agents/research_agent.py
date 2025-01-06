@@ -37,7 +37,7 @@ from app.agent_framework.agents.agent_utils import (
     extract_final_answer,
     format_agent_flow
 )
-from app.agent_framework.tools.google_search import GoogleSearchTool
+from app.agent_framework.tools.google_search.tool import GoogleSearchTool
 from utils.logging_config import get_logger
 
 logger = get_logger(__name__)

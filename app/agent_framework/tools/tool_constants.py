@@ -15,16 +15,7 @@ Design Decisions:
 - Separates configuration from implementation
 """
 
-from enum import Enum, auto
-from typing import Dict, Any
-
-class ArtifactType(Enum):
-    """Enum for artifact types."""
-    AUDIO = "audio"
-    IMAGE = "image"
-    TEXT = "text"
-    RESEARCH = "research"
-    SEARCH = "search"
+from enum import Enum
 
 class ToolName(Enum):
     """Enum for tool names."""

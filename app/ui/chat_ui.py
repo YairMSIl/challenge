@@ -27,6 +27,7 @@ import sys
 import json
 from pathlib import Path
 
+from app.image_generators.eden_image import EdenImageGenerator
 from app.models.artifact import ArtifactType
 
 # Add the project root to Python path
@@ -41,7 +42,6 @@ from fastapi.templating import Jinja2Templates
 import uuid
 
 from app.agent_framework.agents.gemini_agent import GeminiAgent
-from app.image_generators.eden_image import EdenImageGenerator
 from utils.logging_config import get_logger
 
 # Get logger instance
@@ -163,18 +163,20 @@ async def websocket_endpoint(websocket: WebSocket):
 
                     # Check if we have artifacts to display
                     for artifact in gemini_agent_api.session_artifacts[session_id]:
+                        logger.warning(f"Artifact: {artifact.is_new}")
+                        logger.warning(f"Artifact type: {artifact.type}")
                         if not artifact.is_new:
                             continue
 
-                        if artifact.type == ArtifactType.IMAGE:
+                        if artifact.type == ArtifactType.IMAGE.value:
                             ok_response_json["base64_image"] = artifact.content
                             artifact.is_new = False
                         
-                        if artifact.type == ArtifactType.AUDIO:
+                        if artifact.type == ArtifactType.AUDIO.value:
                             ok_response_json["base64_audio"] = artifact.content
                             artifact.is_new = False
 
-                        if artifact.type == ArtifactType.RESEARCH:
+                        if artifact.type == ArtifactType.RESEARCH.value:
                             ok_response_json["research_result"] = artifact.content
                             artifact.is_new = False
 

@@ -4,10 +4,12 @@ from typing import Any
 from enum import Enum, auto
 
 class ArtifactType(Enum):
-    """Enum defining the supported artifact types."""
-    IMAGE = auto()
-    AUDIO = auto() 
-    RESEARCH = auto()
+    """Enum for artifact types."""
+    AUDIO = "audio"
+    IMAGE = "image"
+    TEXT = "text"
+    RESEARCH = "research"
+    SEARCH = "search"
 
 
 @dataclass()

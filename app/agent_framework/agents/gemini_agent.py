@@ -33,9 +33,9 @@ from app.agent_framework.agents.agent_utils import (
     format_agent_flow,
     AgentResponse
 )
-from app.agent_framework.tools.aiml_audio_generator_tool import AIMLAudioGeneratorTool
-from app.agent_framework.tools.generate_image_eden_ai import EdenImageGenerationTool
-from app.agent_framework.tools.research_tool import ResearchTool
+from app.agent_framework.tools.audio_generation.tool import AudioGenerationTool
+from app.agent_framework.tools.image_generation.tool import ImageGenerationTool
+from app.agent_framework.tools.research.tool import ResearchTool
 from utils.logging_config import get_logger
 
 logger = get_logger(__name__)
@@ -80,7 +80,7 @@ class GeminiAgent(BaseAgent):
             
         return ToolCallingAgent(
             tools=[
-                EdenImageGenerationTool(
+                ImageGenerationTool(
                     session_id=self.session_id,
                     artifacts=self.session_artifacts[self.session_id]
                 ),
@@ -88,7 +88,7 @@ class GeminiAgent(BaseAgent):
                     session_id=self.session_id,
                     artifacts=self.session_artifacts[self.session_id]
                 ),
-                AIMLAudioGeneratorTool(
+                AudioGenerationTool(
                     session_id=self.session_id,
                     artifacts=self.session_artifacts[self.session_id]
                 )
