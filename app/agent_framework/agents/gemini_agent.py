@@ -36,6 +36,7 @@ from app.models.artifact import Artifact
 from utils.logging_config import get_logger
 from app.cost_tracker.cost_tracker import CostTracker
 from app.agent_framework.tools.generate_image_eden_ai import EdenImageGenerationTool
+from app.agent_framework.tools.research_tool import ResearchTool
 
 # Get logger instance
 logger = get_logger(__name__)
@@ -74,9 +75,12 @@ class GeminiAPIAgent:
         if session_id not in self.agent_sessions:
             self.session_artifacts[session_id] = []
             
-            # Create agent with tools including image generation
+            # Create agent with tools including image generation and research
             self.agent_sessions[session_id] = ToolCallingAgent(
-                tools=[EdenImageGenerationTool(session_id, artifacts=self.session_artifacts[session_id])],  # Pass the tool instance directly
+                tools=[
+                    EdenImageGenerationTool(session_id, artifacts=self.session_artifacts[session_id]),
+                    ResearchTool(session_id=session_id)  # Pass session_id to ResearchTool
+                ],
                 model=self.model,
             )
             # Initialize chat history for this session
