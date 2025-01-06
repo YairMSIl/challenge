@@ -366,6 +366,3 @@ class EdenImageGenerator:
         except Exception as e:
             logger.error(f"Failed to save image: {str(e)}")
             raise
-
-# Singleton instance
-eden_image_generator = EdenImageGenerator() 

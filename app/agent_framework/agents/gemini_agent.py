@@ -253,6 +253,3 @@ class GeminiAPIAgent:
             List of chat history entries
         """
         return self.chat_histories.get(session_id, [])
-
-# Singleton instance
-gemini_agent_api = GeminiAPIAgent() 

@@ -12,7 +12,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
     </head>
     <body>
-        <h1>Gemini Chat Interface</h1>
         <div id="cost-info">
             <span>
                 <i class="fas fa-coins"></i>
@@ -26,10 +25,12 @@
             </span>
         </div>
         <div id="messages"></div>
-        <input type="text" id="messageInput" placeholder="Type your message... (start with '/image' to generate images)">
-        <button onclick="sendMessage()">
-            <i class="fas fa-paper-plane"></i> Send
-        </button>
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i> Send
+            </button>
+        </div>
         <script>
             let ws = new WebSocket("ws://" + window.location.host + "/ws");
             let messages = document.getElementById("messages");

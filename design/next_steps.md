@@ -1,4 +1,4 @@
-- Put the research results, in md format, as an artifact in the agent's response
+- issue with cost tracker. It is showing, for global cost, the cost of a single request, the last one.
 - 
 
 - cost tracker for the API to the agent (LLM) as well as any other external tool used - needs to be properly incorporated into the agent and reflect actual usage of tokens and not only user prompt and response.

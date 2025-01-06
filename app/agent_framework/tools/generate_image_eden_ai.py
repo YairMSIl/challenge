@@ -23,7 +23,7 @@ import json
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 from smolagents import Tool
-from app.image_generators.eden_image import eden_image_generator
+from app.image_generators.eden_image import EdenImageGenerator
 from app.models.artifact import Artifact, ArtifactType
 from utils.logging_config import get_logger
 
@@ -66,6 +66,7 @@ class EdenImageGenerationTool(Tool):
         super().__init__()
         self.set_session_id(session_id)
         self.artifacts = artifacts
+        self.eden_image_generator = EdenImageGenerator() 
         
     def set_session_id(self, session_id: str) -> None:
         """Set the current session ID for the tool."""
@@ -94,7 +95,7 @@ class EdenImageGenerationTool(Tool):
             logger.info(f"Generating image for prompt: {prompt[:50]}...")
             
             # Use default options for simplicity
-            result = eden_image_generator.generate_image(
+            result = self.eden_image_generator.generate_image(
                 prompt=prompt,
                 session_id=self.current_session_id,
                 options={"resolution": "256x256"}  # Fixed default options
