@@ -40,7 +40,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uuid
 
-from app.agent_framework.agents.gemini_agent import GeminiAPIAgent
+from app.agent_framework.agents.gemini_agent import GeminiAgent
 from app.image_generators.eden_image import EdenImageGenerator
 from utils.logging_config import get_logger
 
@@ -77,15 +77,17 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     
     # Create a unique session ID for this connection
-    session_id = str(uuid.uuid4())
+    session_id = str(uuid.uuid4()).replace('-', '')[:32]  # Remove hyphens and limit to 32 chars
     logger.info(f"New chat session started: {session_id}")
+    
+    # Initialize agents once per session
+    eden_image_generator = EdenImageGenerator()
+    gemini_agent_api = GeminiAgent(session_id=session_id)
     
     try:
         while True:
             message = await websocket.receive_text()
             logger.info(f"Received message: {message[:50]}...")
-            eden_image_generator = EdenImageGenerator() 
-            gemini_agent_api = GeminiAPIAgent() 
             
             try:
                 # Check if this is an image generation request
@@ -137,7 +139,7 @@ async def websocket_endpoint(websocket: WebSocket):
                     )
                 else:
                     # Generate text response
-                    response = await gemini_agent_api.generate_content(message, session_id)
+                    response = await gemini_agent_api.generate_content(message)
                     # TODO: Use the below snippet to extract tool_calls for the UI
                     # for i, log in enumerate(gemini_agent_api.get_or_create_agent(session_id).logs):
                     #     logger.warning(f"Log {i}: {log}")

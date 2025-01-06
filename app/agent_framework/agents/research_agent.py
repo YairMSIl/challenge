@@ -6,9 +6,9 @@ Provides an AI research assistant capable of performing internet research and ge
 Public Components:
 - ResearchAgent: Main class for conducting internet research and report generation
 - generate_research(): Primary method for conducting research and generating reports
-- configure_research(): Setup function for API configuration
 
 Design Decisions:
+- Inherits from BaseAgent for standardized agent interface
 - Uses SmolAgents ToolCallingAgent for structured research interactions
 - Implements systematic research methodology:
   1. Query Understanding
@@ -17,31 +17,29 @@ Design Decisions:
   4. Information Synthesis
   5. Report Generation
 - Supports structured report formats with citations
-- Implements cost tracking for API usage
-- Instance-based design: Each ResearchAgent instance represents a unique session
-- Uses Google Custom Search API for web search capabilities
-- Implements source validation and credibility checking
+- Implements cost tracking per session
 
 Integration Notes:
 - Requires GEMINI_API_KEY and GOOGLE_API_KEY in environment variables
-- Configurable via logging config
 - Uses CostTracker for budget management
 - Uses Google Custom Search for web research
 - Each instance should be created with a unique session ID
 """
 
 import os
-from typing import Optional, Dict, Any, List, Tuple
-from dotenv import load_dotenv
+from typing import Optional
 from smolagents.agents import ToolCallingAgent
 from smolagents.prompts import TOOL_CALLING_SYSTEM_PROMPT
-from smolagents import tool, LiteLLMModel
-from app.models.artifact import Artifact
-from utils.logging_config import get_logger
-from app.cost_tracker.cost_tracker import CostTracker
-from app.agent_framework.tools.google_search import GoogleSearchTool
 
-# Get logger instance
+from app.agent_framework.agents.base_agent import BaseAgent, AgentConfig, AgentType
+from app.agent_framework.agents.agent_utils import (
+    calculate_tokens,
+    extract_final_answer,
+    format_agent_flow
+)
+from app.agent_framework.tools.google_search import GoogleSearchTool
+from utils.logging_config import get_logger
+
 logger = get_logger(__name__)
 
 # System prompt for the research agent
@@ -86,96 +84,86 @@ Guidelines:
 Your output should be well-structured, factual, and comprehensive while remaining accessible to the target audience.
 """
 
-class ResearchAgent:
+class ResearchAgent(BaseAgent):
+    """Agent implementation for conducting internet research."""
+    
     def __init__(self, session_id: Optional[str] = None):
         """
-        Initialize Research Agent wrapper.
+        Initialize Research Agent.
         
         Args:
-            session_id: Unique identifier for the session. If None, a temporary ID will be used.
-        """
-        load_dotenv()
-        self.session_id = session_id
-        if session_id is None:
-            self.session_id = "temp_session_123"  # TODO: Replace with proper session management
-            logger.warning("Using temporary session ID. This should be replaced with proper session management.")
+            session_id: Unique identifier for the session
             
-        self.api_key = os.getenv('GEMINI_API_KEY')
-        if not self.api_key:
-            logger.error("GEMINI_API_KEY not found in environment variables")
-            raise ValueError("GEMINI_API_KEY is required")
+        Raises:
+            ValueError: If session_id format is invalid
+        """
+        if session_id and not self._is_valid_session_id(session_id):
+            raise ValueError("Invalid session ID format")
+            
+        config = AgentConfig(
+            agent_type=AgentType.RESEARCH,
+            required_env_vars=[
+                'GEMINI_API_KEY',
+                'GOOGLE_API_KEY',
+                'GOOGLE_CSE_ID'
+            ]
+        )
+        super().__init__(session_id, config)
         
+        # Get required environment variables
         self.google_api_key = os.getenv('GOOGLE_API_KEY')
         self.google_cse_id = os.getenv('GOOGLE_CSE_ID')
         if not self.google_api_key or not self.google_cse_id:
-            logger.error("GOOGLE_API_KEY or GOOGLE_CSE_ID not found in environment variables")
             raise ValueError("GOOGLE_API_KEY and GOOGLE_CSE_ID are required")
-        
+            
+        self.search_tool = None
         self.configure()
-        self.cost_tracker = CostTracker("research", self._calculate_request_cost)
-        logger.info(f"ResearchAgent initialized successfully for session {self.session_id}")
+
+    @staticmethod
+    def _is_valid_session_id(session_id: str) -> bool:
+        """
+        Validate session ID format.
+        
+        Args:
+            session_id: Session ID to validate
+            
+        Returns:
+            True if valid, False otherwise
+        """
+        # Add your session ID validation logic here
+        # For example: must be alphanumeric and between 8-32 chars
+        return (
+            isinstance(session_id, str) and
+            session_id.isalnum() and
+            8 <= len(session_id) <= 32
+        )
 
     def configure(self) -> None:
-        """Configure Research Agent with credentials."""
+        """Configure agent with Google Search tool."""
         try:
-            # Initialize with LiteLLMModel using Gemini
-            self.model = LiteLLMModel(
-                model_id="gemini/gemini-2.0-flash-exp",
-                api_key=self.api_key
-            )
-            
-            # Initialize Google Search tool
             self.search_tool = GoogleSearchTool(
                 api_key=self.google_api_key,
                 cse_id=self.google_cse_id
             )
-            
             logger.debug("Research Agent configured successfully")
         except Exception as e:
             logger.error(f"Failed to configure Research Agent: {str(e)}")
             raise
 
     def _create_agent(self) -> ToolCallingAgent:
-        """Create a new agent instance for research."""
+        """Create a new agent instance with Google Search tool."""
+        if not self.search_tool:
+            raise RuntimeError("Search tool not initialized. Call configure() first.")
+            
         return ToolCallingAgent(
-            tools=[self.search_tool],  # Add Google Search tool to the agent
+            tools=[self.search_tool],
             model=self.model,
             system_prompt=TOOL_CALLING_SYSTEM_PROMPT + RESEARCH_AGENT_PROMPT
         )
 
-    def _calculate_request_cost(self, request_data: Dict[str, Any]) -> float:
-        """
-        Calculate cost for a Research Agent request.
-        
-        Args:
-            request_data: Dictionary containing input_tokens and output_tokens
-            
-        Returns:
-            Calculated cost in dollars
-            
-        Note:
-            Current pricing:
-            - Input tokens: $0.01 per token
-            - Output tokens: $0.02 per token
-        """
-        input_tokens = request_data.get("input_tokens", 0)
-        output_tokens = request_data.get("output_tokens", 0)
-        
-        input_cost = input_tokens * 0.01  # $0.01 per input token
-        output_cost = output_tokens * 0.02  # $0.02 per output token
-        
-        total_cost = input_cost + output_cost
-        logger.debug(
-            f"Calculated cost: ${total_cost:.6f} "
-            f"(Input: {input_tokens} tokens = ${input_cost:.6f}, "
-            f"Output: {output_tokens} tokens = ${output_cost:.6f})"
-        )
-        
-        return total_cost
-
     def generate_research(self, research_query: str) -> str:
         """
-        Conduct research and generate a report using the Research Agent.
+        Conduct research and generate a report.
         
         Args:
             research_query: The research topic or question
@@ -187,31 +175,26 @@ class ResearchAgent:
             Exception: If API call fails or budget exceeded
         """
         try:
-            logger.debug(f"Starting research for query: {research_query[:50]}... (session: {self.session_id})")
+            logger.debug(f"Starting research for query: {research_query[:50]}...")
             agent = self._create_agent()
             
-            # Calculate request cost before making API call
+            # Calculate request cost
             request_data = {
-                "input_tokens": len(research_query.split()),  # Simple approximation
-                "output_tokens": 0  # Will be updated after response
+                "input_tokens": calculate_tokens(research_query),
+                "output_tokens": 0
             }
             
             # Get response from agent
             response = agent.run(research_query)
-            
-            # Extract final report
-            final_report = str(response)
+            final_report = extract_final_answer(response)
             
             # Update cost with actual output tokens
-            request_data["output_tokens"] = len(final_report.split())
-            
-            # Track cost after successful API call
+            request_data["output_tokens"] = calculate_tokens(final_report)
             self.cost_tracker.calculate_cost(request_data, self.session_id)
             
             logger.info(f"Research completed successfully for session {self.session_id}")
             return final_report
         except ValueError as e:
-            # Re-raise budget exceeded error
             logger.error(f"Budget exceeded for session {self.session_id}: {str(e)}")
             raise
         except Exception as e:
