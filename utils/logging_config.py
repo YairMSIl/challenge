@@ -13,6 +13,8 @@ Design Decisions:
 - File logs contain more detailed information for debugging
 - Console output is color-coded by log level for better visibility
 - Default log level is INFO in production, DEBUG in development
+- Global configuration is done at module import time
+- Subsequent logger requests use existing configuration
 
 Integration Notes:
 - Import and use get_logger() to obtain a logger instance
@@ -39,25 +41,19 @@ def setup_log_directory():
     log_dir.mkdir(exist_ok=True)
     return log_dir
 
-def get_logger(name: str = None) -> logging.Logger:
-    """
-    Get a configured logger instance with color output.
+def _configure_logging():
+    """Configure the root logger with color output and file handling."""
+    # Configure root logger
+    root_logger = logging.getLogger()
     
-    Args:
-        name: The name for the logger. If None, returns the root logger.
-        
-    Returns:
-        A configured logger instance with both file and console handlers.
-    """
-    # Create logger
-    logger = logging.getLogger(name or 'root')
-    if logger.handlers:  # Return if logger is already configured
-        return logger
+    # Only configure if not already configured
+    if root_logger.handlers:
+        return
         
     # Determine log level from environment
     env = os.getenv('ENVIRONMENT', 'development').lower()
     log_level = os.getenv('LOG_LEVEL', LOG_LEVELS.get(env, logging.INFO))
-    logger.setLevel(log_level)
+    root_logger.setLevel(log_level)
     
     # Create console handler with color formatting
     console_handler = logging.StreamHandler(sys.stdout)
@@ -91,11 +87,24 @@ def get_logger(name: str = None) -> logging.Logger:
     )
     file_handler.setFormatter(file_formatter)
     
-    # Add handlers to logger
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
+    # Add handlers to root logger
+    root_logger.addHandler(console_handler)
+    root_logger.addHandler(file_handler)
+
+def get_logger(name: str = None) -> logging.Logger:
+    """
+    Get a configured logger instance.
     
-    return logger
+    Args:
+        name: The name for the logger. If None, returns the root logger.
+        
+    Returns:
+        A configured logger instance.
+    """
+    return logging.getLogger(name or 'root')
+
+# Configure logging once at module import time
+_configure_logging()
 
 # Create a default logger instance
 logger = get_logger() 
