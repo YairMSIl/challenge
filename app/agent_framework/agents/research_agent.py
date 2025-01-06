@@ -81,6 +81,7 @@ Guidelines:
 - Highlight areas of uncertainty
 - Structure reports with clear sections
 - Use appropriate formatting for readability
+- Put the research results, in md format. 
 
 Your output should be well-structured, factual, and comprehensive while remaining accessible to the target audience.
 """

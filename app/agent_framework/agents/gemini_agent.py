@@ -79,8 +79,8 @@ class GeminiAPIAgent:
             # Create agent with tools including image generation and research
             self.agent_sessions[session_id] = ToolCallingAgent(
                 tools=[
-                    EdenImageGenerationTool(session_id, artifacts=self.session_artifacts[session_id]),
-                    ResearchTool(session_id=session_id),  # Pass session_id to ResearchTool
+                    EdenImageGenerationTool(session_id=session_id, artifacts=self.session_artifacts[session_id]),
+                    ResearchTool(session_id=session_id, artifacts=self.session_artifacts[session_id]),  # Pass artifacts to ResearchTool
                     AIMLAudioGeneratorTool(session_id=session_id, artifacts=self.session_artifacts[session_id])
                 ],
                 model=self.model,

@@ -159,6 +159,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
                     # Check if we have artifacts to display
                     for artifact in gemini_agent_api.session_artifacts[session_id]:
+                        logger.warning(f"Artifact: {artifact}")
                         if not artifact.is_new:
                             continue
 
@@ -168,6 +169,10 @@ async def websocket_endpoint(websocket: WebSocket):
                         
                         if artifact.type == ArtifactType.AUDIO:
                             ok_response_json["base64_audio"] = artifact.content
+                            artifact.is_new = False
+
+                        if artifact.type == ArtifactType.RESEARCH:
+                            ok_response_json["research_result"] = artifact.content
                             artifact.is_new = False
 
                     await websocket.send_json(ok_response_json)

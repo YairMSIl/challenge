@@ -416,4 +416,39 @@ button:hover {
     color: #6c757d;
     min-width: 60px;
     text-align: center;
+}
+
+.research-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.research-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.research-header i {
+    margin-right: 0.5rem;
+    color: #3498db;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .research-container {
+        background: #1a1a1a;
+    }
+
+    .research-header {
+        color: #fff;
+        border-bottom-color: #404040;
+    }
 } 

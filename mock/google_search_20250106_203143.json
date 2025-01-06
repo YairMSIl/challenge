@@ -1,0 +1,284 @@
+{
+  "queries": {
+    "request": [
+      {
+        "title": "Google Custom Search - TSLA stock price trends 2024",
+        "totalResults": "16200000",
+        "searchTerms": "TSLA stock price trends 2024",
+        "count": 5,
+        "startIndex": 1,
+        "inputEncoding": "utf8",
+        "outputEncoding": "utf8",
+        "safe": "off",
+        "cx": "83b9d4102dcfd4adf"
+      }
+    ],
+    "nextPage": [
+      {
+        "title": "Google Custom Search - TSLA stock price trends 2024",
+        "totalResults": "16200000",
+        "searchTerms": "TSLA stock price trends 2024",
+        "count": 5,
+        "startIndex": 6,
+        "inputEncoding": "utf8",
+        "outputEncoding": "utf8",
+        "safe": "off",
+        "cx": "83b9d4102dcfd4adf"
+      }
+    ]
+  },
+  "context": {
+    "title": "fiverr"
+  },
+  "searchInformation": {
+    "searchTime": 0.4055,
+    "formattedSearchTime": "0.41",
+    "totalResults": "16200000",
+    "formattedTotalResults": "16,200,000"
+  },
+  "items": [
+    {
+      "kind": "customsearch#result",
+      "title": "Tesla, Inc. (TSLA) Stock Historical Prices & Data - Yahoo Finance",
+      "htmlTitle": "<b>Tesla</b>, Inc. (<b>TSLA</b>) <b>Stock</b> Historical <b>Prices</b> &amp; Data - Yahoo Finance",
+      "link": "https://finance.yahoo.com/quote/TSLA/history/",
+      "displayLink": "finance.yahoo.com",
+      "snippet": "Dec 31, 2024, 423.79, 427.93, 402.54, 403.84, 403.84, 76,825,100. Dec 30, 2024 ... DAX Index \u00b7 Nvidia \u00b7 Tesla \u00b7 DJT. EXPLORE MORE. Mortgages \u00b7 Credit Cards.",
+      "htmlSnippet": "Dec 31, <b>2024</b>, 423.79, 427.93, 402.54, 403.84, 403.84, 76,825,100. Dec 30, <b>2024</b> ... DAX <b>Index</b> &middot; Nvidia &middot; <b>Tesla</b> &middot; DJT. EXPLORE MORE. Mortgages &middot; Credit Cards.",
+      "formattedUrl": "https://finance.yahoo.com/quote/TSLA/history/",
+      "htmlFormattedUrl": "https://finance.yahoo.com/quote/<b>TSLA</b>/history/",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIT0UPZw6gGL6F4EL7ldcEeCFtA8BD4Mfx5GWpWSrlkbiJxhJT96Z8oS7F&s",
+            "width": "225",
+            "height": "225"
+          }
+        ],
+        "metatags": [
+          {
+            "apple-itunes-app": "app-id=328412701, app-clip-bundle-id=com.yahoo.finance.clip-qsp, affiliate-data=ct=us.fin.mbl.smart-banner&pt=9029, app-argument=https://yfinance.onelink.me/3068494570?pid=SmartBanner&c=US_Acquisition_YMktg_337__&af_sub1=Acquisition&af_sub2=US_YMktg&af_sub3=&af_sub4=100000591&af_sub5=YahooFinanceApp__SmartBanner_",
+            "theme-color": "#037B66",
+            "twitter:title": "Tesla, Inc. (TSLA) Stock Historical Prices & Data - Yahoo Finance",
+            "og:site_name": "Yahoo Finance",
+            "al:ios:app_name": "Yahoo Finance",
+            "ogimg": "https://pinhole.finance.yahoo.com/chart/TSLA/__screenshot",
+            "og:title": "Tesla, Inc. (TSLA) Stock Historical Prices & Data - Yahoo Finance",
+            "conf:cjs:consent-event-listener": "true",
+            "al:android:package": "com.yahoo.mobile.client.android.finance",
+            "title": "Tesla, Inc. (TSLA) Stock Historical Prices & Data - Yahoo Finance",
+            "fb:pages": "458584288257241",
+            "og:description": "Discover historical prices for TSLA stock on Yahoo Finance. View daily, weekly or monthly format back to when Tesla, Inc. stock was issued.",
+            "twitter:dnt": "on",
+            "twitter:image": "https://pinhole.finance.yahoo.com/chart/TSLA/__screenshot",
+            "al:ios:app_store_id": "328412701",
+            "twitter:image:src": "https://pinhole.finance.yahoo.com/chart/TSLA/__screenshot",
+            "al:android:url": "intent://#Intent;scheme=yfinance;action=android.intent.action.VIEW;package=com.yahoo.mobile.client.android.finance;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.yahoo.mobile.client.android.finance;end",
+            "fb:app_id": "458584288257241",
+            "oath:guce:consent-host": "guce.yahoo.com",
+            "twitter:site": "@YahooFinance",
+            "viewport": "width=device-width, initial-scale=1",
+            "twitter:description": "Discover historical prices for TSLA stock on Yahoo Finance. View daily, weekly or monthly format back to when Tesla, Inc. stock was issued.",
+            "og:url": "https://finance.yahoo.com/quote/TSLA/history/",
+            "al:android:app_name": "Yahoo Finance"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://s.yimg.com/rz/p/yahoo.png"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024? | Nasdaq",
+      "htmlTitle": "<b>TSLA</b> Stock Forecast: Will <b>Tesla</b> Keep Going Up in <b>2024</b>? | <b>Nasdaq</b>",
+      "link": "https://www.nasdaq.com/articles/tsla-stock-forecast-will-tesla-keep-going-2024",
+      "displayLink": "www.nasdaq.com",
+      "snippet": "Jul 9, 2024 ... There are genuine concerns over Tesla's growth in 2024, and analysts expect its revenues to rise a mere 2.3% this year.",
+      "htmlSnippet": "Jul 9, 2024 <b>...</b> There are genuine concerns over <b>Tesla&#39;s</b> growth in <b>2024</b>, and analysts expect its revenues to rise a mere 2.3% this year.",
+      "formattedUrl": "https://www.nasdaq.com/.../tsla-stock-forecast-will-tesla-keep-going-2024",
+      "htmlFormattedUrl": "https://www.nasdaq.com/.../<b>tsla</b>-<b>stock</b>-forecast-will-tesla-keep-going-<b>2024</b>",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-fNFpU4btUEAxudSb-QngYJfDrHND8_kmDUsftu74wSaTv_Gn6Td1qo&s",
+            "width": "301",
+            "height": "167"
+          }
+        ],
+        "metatags": [
+          {
+            "msapplication-tilecolor": "#da532c",
+            "og:image": "/sites/acquia.prod/files/barchart/shutterstock_2394150809.jpg",
+            "og:type": "Article",
+            "og:image:width": "1200",
+            "twitter:card": "summary_large_image",
+            "twitter:title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024?",
+            "theme-color": "#ffffff",
+            "twitter:site:id": "nasdaq",
+            "handheldfriendly": "true",
+            "twitter:url": "https://www.nasdaq.com/articles/tsla-stock-forecast-will-tesla-keep-going-2024",
+            "com.nasdaq.cms.taxonomy.addisplay": "True",
+            "com.nasdaq.cms.taxonomy.pagetype": "article-page",
+            "og:title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024?",
+            "og:image:height": "630",
+            "title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024? | Nasdaq",
+            "com.nasdaq.cms.taxonomy.quotesymbol": "TSLA",
+            "com.nasdaq.cms.taxonomy.sponsored": "False",
+            "twitter:site": "@Nasdaq",
+            "viewport": "width=device-width, minimum-scale=1.0",
+            "mobileoptimized": "width",
+            "com.nasdaq.cms.taxonomy.topic": "markets:stocks",
+            "og:url": "https://www.nasdaq.com/articles/tsla-stock-forecast-will-tesla-keep-going-2024"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://www.nasdaq.com/sites/acquia.prod/files/styles/720x400/public/barchart/shutterstock_2394150809.jpg?1736088974418274515"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "Tesla, Inc. (TSLA) Stock Price, News, Quote & History - Yahoo Finance",
+      "htmlTitle": "<b>Tesla</b>, Inc. (<b>TSLA</b>) <b>Stock Price</b>, News, Quote &amp; <b>History</b> - Yahoo Finance",
+      "link": "https://finance.yahoo.com/quote/TSLA/",
+      "displayLink": "finance.yahoo.com",
+      "snippet": "Find the latest Tesla, Inc. (TSLA) stock quote, history, news and other vital information to help you with your stock trading and investing.",
+      "htmlSnippet": "Find the latest <b>Tesla</b>, Inc. (<b>TSLA</b>) <b>stock quote</b>, <b>history</b>, news and other vital information to help you with your stock trading and investing.",
+      "formattedUrl": "https://finance.yahoo.com/quote/TSLA/",
+      "htmlFormattedUrl": "https://finance.yahoo.com/quote/<b>TSLA</b>/",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIT0UPZw6gGL6F4EL7ldcEeCFtA8BD4Mfx5GWpWSrlkbiJxhJT96Z8oS7F&s",
+            "width": "225",
+            "height": "225"
+          }
+        ],
+        "metatags": [
+          {
+            "apple-itunes-app": "app-id=328412701, app-clip-bundle-id=com.yahoo.finance.clip-qsp, affiliate-data=ct=us.fin.mbl.smart-banner&pt=9029, app-argument=https://yfinance.onelink.me/3068494570?pid=SmartBanner&c=US_Acquisition_YMktg_337__&af_sub1=Acquisition&af_sub2=US_YMktg&af_sub3=&af_sub4=100000591&af_sub5=YahooFinanceApp__SmartBanner_",
+            "theme-color": "#037B66",
+            "twitter:title": "Tesla, Inc. (TSLA) Stock Price, News, Quote & History - Yahoo Finance",
+            "og:site_name": "Yahoo Finance",
+            "al:ios:app_name": "Yahoo Finance",
+            "ogimg": "https://pinhole.finance.yahoo.com/chart/TSLA/__screenshot",
+            "og:title": "Tesla, Inc. (TSLA) Stock Price, News, Quote & History - Yahoo Finance",
+            "conf:cjs:consent-event-listener": "true",
+            "al:android:package": "com.yahoo.mobile.client.android.finance",
+            "title": "Tesla, Inc. (TSLA) Stock Price, News, Quote & History - Yahoo Finance",
+            "fb:pages": "458584288257241",
+            "og:description": "Find the latest Tesla, Inc. (TSLA) stock quote, history, news and other vital information to help you with your stock trading and investing.",
+            "twitter:dnt": "on",
+            "twitter:image": "https://pinhole.finance.yahoo.com/chart/TSLA/__screenshot",
+            "al:ios:app_store_id": "328412701",
+            "twitter:image:src": "https://pinhole.finance.yahoo.com/chart/TSLA/__screenshot",
+            "al:android:url": "intent://#Intent;scheme=yfinance;action=android.intent.action.VIEW;package=com.yahoo.mobile.client.android.finance;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.yahoo.mobile.client.android.finance;end",
+            "fb:app_id": "458584288257241",
+            "oath:guce:consent-host": "guce.yahoo.com",
+            "twitter:site": "@YahooFinance",
+            "viewport": "width=device-width, initial-scale=1",
+            "twitter:description": "Find the latest Tesla, Inc. (TSLA) stock quote, history, news and other vital information to help you with your stock trading and investing.",
+            "og:url": "https://finance.yahoo.com/quote/TSLA/",
+            "al:android:app_name": "Yahoo Finance"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://s.yimg.com/rz/p/yahoo.png"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "Tesla Stock Is Still A Big Loser In 2024, But It's Hitting Highs By This ...",
+      "htmlTitle": "<b>Tesla Stock</b> Is Still A Big Loser In <b>2024</b>, But It&#39;s Hitting Highs By This ...",
+      "link": "https://www.investors.com/news/tesla-stock-is-plunging-not-cheaper-by-earnings-metric/",
+      "displayLink": "www.investors.com",
+      "snippet": "Jun 17, 2024 ... Analysts now see 2024 earnings per share targets at $2.41 a share, according to FactSet, down from $3.79 at the end of 2023, $5.62 a share at\u00a0...",
+      "htmlSnippet": "Jun 17, 2024 <b>...</b> Analysts now see <b>2024</b> earnings per share targets at $2.41 a share, according to FactSet, down from $3.79 at the end of 2023, $5.62 a share at&nbsp;...",
+      "formattedUrl": "https://www.investors.com/.../tesla-stock-is-plunging-not-cheaper-by-earnin...",
+      "htmlFormattedUrl": "https://www.investors.com/.../tesla-<b>stock</b>-is-plunging-not-cheaper-by-earnin...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuwYYgEb8TktIvUoarrcuW8JcB_3SntwNTdKXPb61aNpN3mTkb1UZcDHo&s",
+            "width": "314",
+            "height": "160"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://www.investors.com/wp-content/uploads/2023/07/Stock-Tesla-RedSilo-adobe.jpg",
+            "apple-itunes-app": "app-id=1132274579",
+            "article:published_time": "2024-06-18T00:48:30+00:00",
+            "og:image:width": "1000",
+            "twitter:card": "summary_large_image",
+            "og:site_name": "Investor's Business Daily",
+            "twitter:label1": "Written by",
+            "twitter:label2": "Est. reading time",
+            "parsely-author": "ED CARSON",
+            "og:image:type": "image/jpeg",
+            "msapplication-tileimage": "https://www.investors.com/wp-content/uploads/2023/10/ibd-favicon-20231010.png",
+            "og:description": "The EV giant's earnings estimates have fallen even faster than the stock.",
+            "twitter:creator": "@IBD_ECarson",
+            "parsely-metadata": "{\"post_id\": \"9015355\", \"allesseh_post_id\": \"IBDF-9015355\"}",
+            "article:publisher": "https://www.facebook.com/investorsbusinessdaily/",
+            "twitter:data1": "ED CARSON",
+            "twitter:data2": "4 minutes",
+            "parsely-type": "post",
+            "twitter:site": "@IBDinvestors",
+            "article:modified_time": "2024-06-18T12:07:24+00:00",
+            "parsely-link": "http://www.investors.com/news/tesla-stock-is-plunging-not-cheaper-by-earnings-metric/",
+            "parsely-image-url": "https://www.investors.com/wp-content/uploads/2023/07/Stock-Tesla-RedSilo-adobe-640x360.jpg",
+            "parsely-section": "News",
+            "tag": "All News And Stock Ideas|Tesla Stock News",
+            "og:type": "article",
+            "twitter:title": "Tesla Is Hitting New Highs By This Metric",
+            "author": "ED CARSON",
+            "og:title": "Tesla Is Hitting New Highs By This Metric",
+            "og:image:height": "511",
+            "parsely-title": "Tesla Stock Is Still A Big Loser In 2024, But It's Hitting Highs By This Metric",
+            "article:author": "/pages/Ed-Carson/601611143194398",
+            "parsely-pub-date": "2024-06-18T00:48:30Z",
+            "parsely-tags": "all news and stock ideas,tesla stock news",
+            "uac-config": "{\"breakpoints\":{\"at4units\":0,\"at8units\":320,\"at12units\":1024}}",
+            "viewport": "width=device-width, initial-scale=1",
+            "twitter:description": "The EV giant's earnings estimates have fallen even faster than the stock.",
+            "og:locale": "en_US",
+            "og:url": "https://www.investors.com/news/tesla-stock-is-plunging-not-cheaper-by-earnings-metric/",
+            "google-play-app": "app-id=com.investors.business.daily"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://www.investors.com/wp-content/uploads/2023/07/Stock-Tesla-RedSilo-adobe.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "Tesla - 15 Year Stock Price History | TSLA | MacroTrends",
+      "htmlTitle": "<b>Tesla</b> - 15 Year <b>Stock Price History</b> | <b>TSLA</b> | MacroTrends",
+      "link": "https://www.macrotrends.net/stocks/charts/TSLA/tesla/stock-price-history",
+      "displayLink": "www.macrotrends.net",
+      "snippet": "... Tesla stock closing price was 479.86 on December 17, 2024. The Tesla 52- ... Tesla - 15 Year Stock Price History | TSLA. Prices Financials Revenue\u00a0...",
+      "htmlSnippet": "... <b>Tesla</b> stock closing price was 479.86 on December 17, <b>2024</b>. The <b>Tesla</b> 52- ... <b>Tesla</b> - 15 Year <b>Stock Price History</b> | <b>TSLA</b>. Prices Financials Revenue&nbsp;...",
+      "formattedUrl": "https://www.macrotrends.net/stocks/charts/TSLA/tesla/stock-price-history",
+      "htmlFormattedUrl": "https://www.macro<b>trends</b>.net/<b>stock</b>s/charts/<b>TSLA</b>/tesla/<b>stock</b>-<b>price</b>-history",
+      "pagemap": {
+        "metatags": [
+          {
+            "viewport": "width=device-width, initial-scale=1"
+          }
+        ]
+      }
+    }
+  ]
+}

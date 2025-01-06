@@ -15,19 +15,22 @@ Design Decisions:
 - Maintains session-aware operation per research query
 - Integrates with logging system for debugging
 - Uses proper response serialization
+- Stores research results as artifacts for UI display
 
 Integration Notes:
 - Requires GEMINI_API_KEY and GOOGLE_API_KEY in environment variables
 - Configurable via logging config
 - Uses CostTracker for budget management
 - Creates new ResearchAgent instance for each request
+- Integrates with UI artifact system for displaying research results
 """
 
 import json
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from smolagents import Tool
 from app.agent_framework.agents.research_agent import ResearchAgent
+from app.models.artifact import Artifact, ArtifactType
 from utils.logging_config import get_logger
 
 # Get logger instance
@@ -65,10 +68,17 @@ class ResearchTool(Tool):
     }
     output_type = "string"  # Returns JSON string
     
-    def __init__(self, session_id: Optional[str] = None):
-        """Initialize the Research Tool with optional session ID."""
+    def __init__(self, session_id: Optional[str] = None, artifacts: Optional[List] = None):
+        """
+        Initialize the Research Tool with optional session ID and artifacts list.
+        
+        Args:
+            session_id: Optional session identifier for tracking
+            artifacts: Optional list to store research results as artifacts
+        """
         super().__init__()
         self.session_id = session_id
+        self.artifacts = artifacts if artifacts is not None else []
         logger.info(f"ResearchTool initialized for session {session_id}")
     
     def forward(self, query: str) -> str:
@@ -92,6 +102,13 @@ class ResearchTool(Tool):
             
             # Get the research report
             report = research_agent.generate_research(query)
+            
+            # Store research result as an artifact
+            self.artifacts.append(Artifact(
+                is_new=True,
+                content=report,
+                type=ArtifactType.RESEARCH
+            ))
             
             return ResearchResponse(
                 success=True,

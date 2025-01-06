@@ -3,8 +3,13 @@
     <head>
         <title>Gemini Chat Interface</title>
         <link rel="stylesheet" href="/static/css/chat.css">
+        <link rel="stylesheet" href="/static/css/markdown.css">
         <!-- Add Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <!-- Add Marked.js for Markdown parsing -->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <!-- Add DOMPurify for sanitizing HTML -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
     </head>
     <body>
         <h1>Gemini Chat Interface</h1>
@@ -316,6 +321,29 @@
                 if (data.base64_audio) {
                     const audioPlayer = createAudioPlayer(data.base64_audio);
                     messages.appendChild(audioPlayer);
+                    messages.scrollTop = messages.scrollHeight;
+                }
+
+                // Handle research results
+                if (data.research_result) {
+                    const researchDiv = document.createElement("div");
+                    researchDiv.className = "message bot research-container";
+                    
+                    // Add research icon and title
+                    const researchHeader = document.createElement("div");
+                    researchHeader.className = "research-header";
+                    researchHeader.innerHTML = '<i class="fas fa-search"></i> Research Results';
+                    researchDiv.appendChild(researchHeader);
+                    
+                    // Create markdown content container
+                    const researchContent = document.createElement("div");
+                    researchContent.className = "markdown-content";
+                    // Parse markdown and sanitize HTML
+                    const htmlContent = DOMPurify.sanitize(marked.parse(data.research_result));
+                    researchContent.innerHTML = htmlContent;
+                    
+                    researchDiv.appendChild(researchContent);
+                    messages.appendChild(researchDiv);
                     messages.scrollTop = messages.scrollHeight;
                 }
             };

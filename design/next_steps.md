@@ -5,6 +5,20 @@
 - Make sure cost is captured within the agent and any sub-tool/agent calls
 - agent flow section does not contain the content of the agent interactions with tools.
 
+- Issue where we do not see tool calls and internal 'agent' thoughts in the UI
+
+- Updated design document
+- Updated readme.md and proper description of the project and how to run it including examples
+- Possible docker setup for the project for easier deployment
+
+
+Tidy up the code
+1) Split up code into more files
+2) Consts for strings and other static values
+3) Enums where applicable
+4) single purpose functions (generally, not long and not too  many indentations)
+5) Remove unused code and imports
+6) less JSONs more objects. 
 
 
 Bugs:
@@ -12,8 +26,7 @@ Bugs:
 
 
 To Figure:
-1) Why do we get the init flow twice? 'app.agent_framework.agents.gemini_agent - DEBUG - GeminiAPIAgent initialized successfully' happend twice
-    It seems to trigger a second time when we load the UI
+1) 
 
 
 
