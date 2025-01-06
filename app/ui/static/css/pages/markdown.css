@@ -1,0 +1,136 @@
+/* Markdown Styles
+==================
+Styles for markdown-rendered content.
+
+Design Decisions:
+- Clean and readable typography
+- Consistent spacing and hierarchy
+- Support for code blocks and tables
+- Dark mode compatibility
+
+Integration Notes:
+- Requires theme.css variables
+- Used for research results and documentation
+*/
+
+@import '../base/theme.css';
+
+.markdown-content {
+    font-family: var(--font-family-base);
+    line-height: var(--line-height-base);
+    color: var(--text-primary);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    padding: var(--spacing-md);
+    background: var(--surface-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Headings */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.markdown-content h1 { font-size: calc(var(--font-size-base) * 2); }
+.markdown-content h2 { font-size: calc(var(--font-size-base) * 1.75); }
+.markdown-content h3 { font-size: calc(var(--font-size-base) * 1.5); }
+.markdown-content h4 { font-size: calc(var(--font-size-base) * 1.25); }
+.markdown-content h5 { font-size: calc(var(--font-size-base) * 1.1); }
+.markdown-content h6 { font-size: var(--font-size-base); }
+
+/* Text Elements */
+.markdown-content p {
+    margin: var(--spacing-md) 0;
+}
+
+.markdown-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.markdown-content a:hover {
+    border-bottom-color: var(--primary-color);
+}
+
+/* Code Blocks */
+.markdown-content code {
+    background: var(--background-color);
+    padding: calc(var(--spacing-xs) / 2) var(--spacing-xs);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-family-code);
+    font-size: var(--font-size-sm);
+}
+
+.markdown-content pre {
+    background: var(--background-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    overflow-x: auto;
+}
+
+.markdown-content pre code {
+    background: none;
+    padding: 0;
+}
+
+/* Block Elements */
+.markdown-content blockquote {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-md);
+    border-left: 4px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    margin: var(--spacing-md) 0;
+    padding-left: calc(var(--spacing-md) * 2);
+}
+
+.markdown-content li {
+    margin: var(--spacing-sm) 0;
+}
+
+/* Media Elements */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-sm);
+    margin: var(--spacing-md) 0;
+}
+
+/* Tables */
+.markdown-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: var(--spacing-md) 0;
+}
+
+.markdown-content th,
+.markdown-content td {
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-sm);
+    text-align: left;
+}
+
+.markdown-content th {
+    background: var(--background-color);
+}
+
+/* Horizontal Rule */
+.markdown-content hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: calc(var(--spacing-md) * 2) 0;
+} 

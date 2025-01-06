@@ -1,0 +1,80 @@
+/* Tool Components
+==================
+Styles for tool-related UI components and displays.
+
+Design Decisions:
+- Consistent styling for tool calls and results
+- Clear visual hierarchy for tool information
+- Distinct styling for different tool states
+- Support for code blocks and pre-formatted text
+
+Integration Notes:
+- Requires theme.css variables
+- Used in conjunction with messages.css
+*/
+
+/* Tool Call Base */
+.tool-call {
+    background: var(--background-color);
+    border-left: 3px solid var(--primary-color);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+    border-radius: var(--border-radius-sm);
+}
+
+.tool-call pre {
+    background: var(--background-color);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    overflow-x: auto;
+    color: var(--text-primary);
+    font-family: var(--font-family-code);
+    font-size: var(--font-size-sm);
+}
+
+.tool-call-name {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.tool-result {
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-color);
+    color: var(--success-color);
+}
+
+/* Internal Messages */
+.internal-message {
+    background: var(--background-color);
+    border-left: 3px solid var(--primary-color);
+    padding: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+    border-radius: var(--border-radius-sm);
+    color: var(--text-primary);
+}
+
+/* Error States */
+.error-card {
+    background-color: var(--error-color);
+    padding: var(--spacing-sm);
+}
+
+.error-card .error-title {
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.error-card .error-message {
+    color: white;
+    font-size: var(--font-size-sm);
+}
+
+.error-card .error-title::before {
+    content: "⚠️";
+    margin-right: var(--spacing-xs);
+} 

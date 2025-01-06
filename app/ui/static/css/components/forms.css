@@ -1,0 +1,106 @@
+/* Form Components
+==================
+Styles for form elements including inputs and buttons.
+
+Design Decisions:
+- Consistent styling across all form elements
+- Clear focus and hover states
+- Accessible color contrast
+- Support for different button states and types
+
+Integration Notes:
+- Requires theme.css variables
+- Used across multiple components
+*/
+
+/* Input Elements */
+#messageInput { 
+    flex: 1;
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: border-color 0.2s ease;
+}
+
+#messageInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Button Base */
+button { 
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    transition: background-color 0.2s ease;
+}
+
+button:hover { 
+    background: var(--button-hover);
+}
+
+/* Audio Controls */
+.audio-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+}
+
+.audio-controls button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.audio-controls button:hover {
+    background: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+.audio-controls button.playing {
+    background: var(--error-color);
+}
+
+.audio-controls button.playing:hover {
+    background: var(--error-color);
+}
+
+/* Progress Bar */
+.audio-progress {
+    flex: 1;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.audio-progress-bar {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.1s linear;
+}
+
+.audio-time {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    min-width: 50px;
+    text-align: center;
+} 

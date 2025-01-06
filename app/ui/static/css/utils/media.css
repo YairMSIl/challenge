@@ -1,0 +1,90 @@
+/* Media Queries
+==================
+Responsive design breakpoints and utilities.
+
+Design Decisions:
+- Mobile-first approach
+- Consistent breakpoints across components
+- Maintains readability on all screen sizes
+- Adapts layout for different devices
+
+Integration Notes:
+- Import after component styles
+- Uses theme.css variables
+*/
+
+/* Media Container */
+.image-container {
+    margin: var(--spacing-sm) 0;
+    padding: var(--spacing-sm);
+    background: white;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.generated-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Research Container */
+.research-container {
+    padding: var(--spacing-md);
+    background: var(--surface-color);
+}
+
+.research-header {
+    margin-bottom: var(--spacing-md);
+}
+
+/* Dark Mode Overrides */
+@media (prefers-color-scheme: dark) {
+    .research-container {
+        background: var(--background-color);
+    }
+    
+    .research-header {
+        color: var(--text-primary);
+    }
+    
+    .image-container {
+        background: var(--surface-color);
+        border-color: var(--border-color);
+    }
+}
+
+/* Responsive Breakpoints */
+@media screen and (max-width: 768px) {
+    .message {
+        max-width: 90%;
+    }
+    
+    .input-container {
+        flex-direction: column;
+    }
+    
+    #messageInput {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .audio-controls {
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .message {
+        max-width: 95%;
+    }
+    
+    .message-chips {
+        margin-left: var(--spacing-sm);
+    }
+    
+    .tool-call pre {
+        font-size: var(--font-size-sm);
+    }
+} 

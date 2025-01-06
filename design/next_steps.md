@@ -12,7 +12,7 @@
 - Possible docker setup for the project for easier deployment
 
 
-Tidy up the code
+Tidy up the code:
 1) Split up code into more files
 2) Consts for strings and other static values
 3) Enums where applicable

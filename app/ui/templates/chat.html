@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Gemini Chat Interface</title>
-        <link rel="stylesheet" href="/static/css/chat.css">
-        <link rel="stylesheet" href="/static/css/markdown.css">
+        <!-- Single CSS import that includes all modular files -->
+        <link rel="stylesheet" href="/static/css/pages/chat.css">
         <!-- Add Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <!-- Add Marked.js for Markdown parsing -->
@@ -327,8 +327,18 @@
 
                 // Handle research results
                 if (data.research_result) {
+                    const messageDiv = document.createElement("div");
+                    messageDiv.className = "message bot";
+                    
+                    // Add bot indicator
+                    const messageContent = document.createElement("div");
+                    messageContent.className = "message-content";
+                    messageContent.innerHTML = "<strong>Bot:</strong>";
+                    messageDiv.appendChild(messageContent);
+                    
+                    // Add research container
                     const researchDiv = document.createElement("div");
-                    researchDiv.className = "message bot research-container";
+                    researchDiv.className = "research-container";
                     
                     // Add research icon and title
                     const researchHeader = document.createElement("div");
@@ -344,7 +354,8 @@
                     researchContent.innerHTML = htmlContent;
                     
                     researchDiv.appendChild(researchContent);
-                    messages.appendChild(researchDiv);
+                    messageDiv.appendChild(researchDiv);
+                    messages.appendChild(messageDiv);
                     messages.scrollTop = messages.scrollHeight;
                 }
             };

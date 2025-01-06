@@ -1,0 +1,151 @@
+/* Message Components
+==================
+Styles for chat messages and related components.
+
+Design Decisions:
+- Uses distinct styles for user and bot messages
+- Implements nested components for complex message types
+- Maintains consistent spacing and alignment
+- Supports markdown content within messages
+
+Integration Notes:
+- Requires theme.css variables
+- Used in conjunction with markdown.css for content styling
+*/
+
+/* Message Base */
+.message {
+    position: relative;
+    padding: var(--spacing-md);
+    margin: var(--spacing-sm);
+    border-radius: var(--border-radius-lg);
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message.bot {
+    background-color: var(--surface-color);
+    margin-right: auto;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.message.user {
+    background-color: var(--primary-color);
+    color: white;
+    margin-left: auto;
+}
+
+.message-content {
+    margin-bottom: var(--spacing-sm);
+    line-height: var(--line-height-base);
+}
+
+.message-content strong {
+    color: var(--accent-color);
+}
+
+/* Message Chips */
+.message-chips {
+    margin-left: var(--spacing-md);
+    padding-left: var(--spacing-sm);
+    border-left: 2px solid var(--border-color);
+    margin-top: var(--spacing-sm);
+}
+
+.message-cost-chip {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-lg);
+    display: inline-flex;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+}
+
+.message-cost-chip i {
+    margin-right: var(--spacing-xs);
+    color: var(--warning-color);
+}
+
+/* Agent Flow Components */
+.agent-flow-chip {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    margin-top: var(--spacing-sm);
+}
+
+.agent-flow-header {
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.agent-flow-header:hover {
+    background-color: var(--surface-color);
+    opacity: 0.9;
+}
+
+.agent-flow-header i {
+    margin-right: var(--spacing-xs);
+}
+
+.agent-flow-header i:last-child {
+    margin-right: 0;
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+.agent-flow-content {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Collapse States */
+.agent-flow-chip.collapsed .agent-flow-content {
+    display: none;
+}
+
+.agent-flow-chip.collapsed .agent-flow-header i:last-child {
+    transform: rotate(0deg);
+}
+
+.agent-flow-chip:not(.collapsed) .agent-flow-header i:last-child {
+    transform: rotate(180deg);
+}
+
+/* Research Container */
+.research-container {
+    margin-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    padding-top: var(--spacing-md);
+}
+
+.research-header {
+    font-weight: bold;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.research-header i {
+    color: var(--primary-color);
+}
+
+/* Markdown content within messages */
+.message .markdown-content {
+    background: var(--background-color);
+    border-radius: var(--border-radius-sm);
+    margin-top: var(--spacing-sm);
+    box-shadow: var(--shadow-sm);
+} 

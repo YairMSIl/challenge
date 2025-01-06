@@ -1,0 +1,59 @@
+/* Theme Configuration
+==================
+Defines global theme variables and color schemes for the application.
+
+Design Decisions:
+- Uses CSS variables for easy theme switching
+- Supports both light and dark modes
+- Maintains consistent color palette across components
+- Uses semantic color naming for better maintainability
+
+Integration Notes:
+- Import this file first in the main CSS bundle
+- Override these variables in component-specific files when needed
+*/
+
+:root {
+    /* Core Colors */
+    --primary-color: #2196F3;
+    --primary-dark: #1976D2;
+    --background-color: #1a1a1a;
+    --surface-color: #2d2d2d;
+    --border-color: #404040;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --accent-color: #f321bb;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --warning-color: #ffd700;
+
+    /* Component Colors */
+    --button-bg: var(--primary-color);
+    --button-hover: var(--primary-dark);
+    --input-bg: var(--background-color);
+    --card-bg: var(--surface-color);
+    
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    
+    /* Border Radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.1);
+    
+    /* Typography */
+    --font-family-base: Arial, sans-serif;
+    --font-family-code: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --line-height-base: 1.5;
+} 
