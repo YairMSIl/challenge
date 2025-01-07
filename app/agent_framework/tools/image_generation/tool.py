@@ -14,7 +14,7 @@ Design Decisions:
 """
 
 from typing import Optional, List, Dict, Any
-from app.image_generators.eden_image import EdenImageGenerator
+from app.image_generators.eden import EdenImageGenerator
 from app.models.artifact import ArtifactType
 from ..tools_utils import BaseTool, ToolResponseStatus
 from ..tool_constants import ToolName, ToolConfig, IMAGE_TOOL_INPUTS

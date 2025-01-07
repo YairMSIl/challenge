@@ -27,7 +27,7 @@ import sys
 import json
 from pathlib import Path
 
-from app.image_generators.eden_image import EdenImageGenerator
+from app.image_generators.eden import EdenImageGenerator
 from app.models.artifact import ArtifactType
 
 # Add the project root to Python path

@@ -2,9 +2,9 @@
   "queries": {
     "request": [
       {
-        "title": "Google Custom Search - TSLA stock price 2024 trends",
-        "totalResults": "4200000",
-        "searchTerms": "TSLA stock price 2024 trends",
+        "title": "Google Custom Search - TSLA stock performance 2024",
+        "totalResults": "8170000",
+        "searchTerms": "TSLA stock performance 2024",
         "count": 5,
         "startIndex": 1,
         "inputEncoding": "utf8",
@@ -15,9 +15,9 @@
     ],
     "nextPage": [
       {
-        "title": "Google Custom Search - TSLA stock price 2024 trends",
-        "totalResults": "4200000",
-        "searchTerms": "TSLA stock price 2024 trends",
+        "title": "Google Custom Search - TSLA stock performance 2024",
+        "totalResults": "8170000",
+        "searchTerms": "TSLA stock performance 2024",
         "count": 5,
         "startIndex": 6,
         "inputEncoding": "utf8",
@@ -31,20 +31,20 @@
     "title": "fiverr"
   },
   "searchInformation": {
-    "searchTime": 0.398386,
-    "formattedSearchTime": "0.40",
-    "totalResults": "4200000",
-    "formattedTotalResults": "4,200,000"
+    "searchTime": 0.371037,
+    "formattedSearchTime": "0.37",
+    "totalResults": "8170000",
+    "formattedTotalResults": "8,170,000"
   },
   "items": [
     {
       "kind": "customsearch#result",
       "title": "Tesla, Inc. (TSLA) Stock Historical Prices & Data - Yahoo Finance",
-      "htmlTitle": "<b>Tesla</b>, Inc. (<b>TSLA</b>) <b>Stock</b> Historical <b>Prices</b> &amp; Data - Yahoo Finance",
+      "htmlTitle": "<b>Tesla</b>, Inc. (<b>TSLA</b>) <b>Stock</b> Historical Prices &amp; Data - Yahoo Finance",
       "link": "https://finance.yahoo.com/quote/TSLA/history/",
       "displayLink": "finance.yahoo.com",
-      "snippet": "Volume. Jan 3, 2025, 381.48, 411.88, 379.45, 410.44, 410.44, 94,818,400. Jan 2, 2025, 390.10, 392.73, 373.04, 379.28, 379.28, 109,710,700. Dec 31, 2024\u00a0...",
-      "htmlSnippet": "Volume. Jan 3, 2025, 381.48, 411.88, 379.45, 410.44, 410.44, 94,818,400. Jan 2, 2025, 390.10, 392.73, 373.04, 379.28, 379.28, 109,710,700. Dec 31, <b>2024</b>&nbsp;...",
+      "snippet": "Discover historical prices for TSLA stock on Yahoo Finance ... NasdaqGS - Nasdaq Real Time Price \u2022 USD ... Dec 31, 2024, 423.79, 427.93, 402.54, 403.84, 403.84\u00a0...",
+      "htmlSnippet": "Discover historical prices for <b>TSLA stock</b> on Yahoo Finance ... NasdaqGS - Nasdaq Real Time Price \u2022 USD ... Dec 31, <b>2024</b>, 423.79, 427.93, 402.54, 403.84, 403.84&nbsp;...",
       "formattedUrl": "https://finance.yahoo.com/quote/TSLA/history/",
       "htmlFormattedUrl": "https://finance.yahoo.com/quote/<b>TSLA</b>/history/",
       "pagemap": {
@@ -92,51 +92,66 @@
     },
     {
       "kind": "customsearch#result",
-      "title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024? | Nasdaq",
-      "htmlTitle": "<b>TSLA</b> Stock Forecast: Will <b>Tesla</b> Keep Going Up in <b>2024</b>? | <b>Nasdaq</b>",
-      "link": "https://www.nasdaq.com/articles/tsla-stock-forecast-will-tesla-keep-going-2024",
-      "displayLink": "www.nasdaq.com",
-      "snippet": "Jul 9, 2024 ... There are genuine concerns over Tesla's growth in 2024, and analysts expect its revenues to rise a mere 2.3% this year.",
-      "htmlSnippet": "Jul 9, 2024 <b>...</b> There are genuine concerns over <b>Tesla&#39;s</b> growth in <b>2024</b>, and analysts expect its revenues to rise a mere 2.3% this year.",
-      "formattedUrl": "https://www.nasdaq.com/.../tsla-stock-forecast-will-tesla-keep-going-2024",
-      "htmlFormattedUrl": "https://www.nasdaq.com/.../<b>tsla</b>-<b>stock</b>-forecast-will-tesla-keep-going-<b>2024</b>",
+      "title": "Tesla Stock Is Down 30% In 2024. Is It a Buy? | Morningstar",
+      "htmlTitle": "<b>Tesla Stock</b> Is Down 30% In <b>2024</b>. Is It a Buy? | Morningstar",
+      "link": "https://www.morningstar.com/stocks/tesla-stock-is-down-30-2024-is-it-buy",
+      "displayLink": "www.morningstar.com",
+      "snippet": "Apr 9, 2024 ... We forecast that Tesla's deliveries will be roughly flat in 2024 versus 1.8 million in 2023. We anticipate lower average selling prices, as\u00a0...",
+      "htmlSnippet": "Apr 9, 2024 <b>...</b> We forecast that <b>Tesla&#39;s</b> deliveries will be roughly flat in <b>2024</b> versus 1.8 million in 2023. We anticipate lower average selling prices, as&nbsp;...",
+      "formattedUrl": "https://www.morningstar.com/stocks/tesla-stock-is-down-30-2024-is-it-buy",
+      "htmlFormattedUrl": "https://www.morningstar.com/<b>stock</b>s/tesla-<b>stock</b>-is-down-30-<b>2024</b>-is-it-buy",
       "pagemap": {
         "cse_thumbnail": [
           {
-            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-fNFpU4btUEAxudSb-QngYJfDrHND8_kmDUsftu74wSaTv_Gn6Td1qo&s",
-            "width": "301",
-            "height": "167"
+            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8A_uvRcM4-qY7_wPreKCJnbXHN4_0ldJC6vhrU4D9iCt6MZL10y28MR0&s",
+            "width": "311",
+            "height": "162"
+          }
+        ],
+        "person": [
+          {
+            "name": "Diana Anghel",
+            "url": "Diana Anghel"
+          }
+        ],
+        "organization": [
+          {
+            "name": "Morningstar, Inc.",
+            "publishingprinciples": "https://www.morningstar.com/editorial-policy",
+            "slogan": "Empowering Investor Success",
+            "url": "https://www.morningstar.com/",
+            "sameas": "https://www.facebook.com/MorningstarInc"
           }
         ],
         "metatags": [
           {
-            "msapplication-tilecolor": "#da532c",
-            "og:image": "/sites/acquia.prod/files/barchart/shutterstock_2394150809.jpg",
-            "og:type": "Article",
-            "og:image:width": "1200",
+            "og:image": "https://morningstar-morningstar-prod.web.arc-cdn.net/resizer/BLhl_P-XK8GNfKUCBtiP9rrwcNw=/2400x1350/smart/filters:no_upscale()/cloudfront-us-east-1.images.arcpublishing.com/morningstar/347BSP2KJNBCLKVD7DGXSFLDLU.jpg",
+            "og:type": "article",
             "twitter:card": "summary_large_image",
-            "twitter:title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024?",
-            "theme-color": "#ffffff",
-            "twitter:site:id": "nasdaq",
-            "handheldfriendly": "true",
-            "twitter:url": "https://www.nasdaq.com/articles/tsla-stock-forecast-will-tesla-keep-going-2024",
-            "com.nasdaq.cms.taxonomy.addisplay": "True",
-            "com.nasdaq.cms.taxonomy.pagetype": "article-page",
-            "og:title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024?",
-            "og:image:height": "630",
-            "title": "TSLA Stock Forecast: Will Tesla Keep Going Up in 2024? | Nasdaq",
-            "com.nasdaq.cms.taxonomy.quotesymbol": "TSLA",
-            "com.nasdaq.cms.taxonomy.sponsored": "False",
-            "twitter:site": "@Nasdaq",
-            "viewport": "width=device-width, minimum-scale=1.0",
-            "mobileoptimized": "width",
-            "com.nasdaq.cms.taxonomy.topic": "markets:stocks",
-            "og:url": "https://www.nasdaq.com/articles/tsla-stock-forecast-will-tesla-keep-going-2024"
+            "og:site_name": "Morningstar, Inc.",
+            "og:article:modified_time": "2024-04-12T16:00:29.147Z",
+            "msvalidate.01": "3B92D15190FFAFB254D37CE182C0D3AE",
+            "og:title": "Tesla Stock Is Down 30% In 2024. Is It a Buy?",
+            "parsely-author": "Diana Anghel",
+            "og:article:published_time": "2024-04-09T17:05:21.667Z",
+            "version": "1.6.0",
+            "og:description": "Tesla\u2019s stock price has slid as investors reset expectations for slower growth.",
+            "parsely-title": "Tesla Stock Is Down 30% In 2024. Is It a Buy?",
+            "parsely-pub-date": "2024-04-09T17:05:21.667Z",
+            "parsely-type": "post",
+            "parsely-tags": "Auto Manufacturers",
+            "twitter:site": "@MorningstarInc",
+            "viewport": "width=device-width, initial-scale=1",
+            "parsely-link": "https://www.morningstar.com/stocks/tesla-stock-is-down-30-2024-is-it-buy",
+            "og:article:section": "Stocks",
+            "parsely-image-url": "https://morningstar-morningstar-prod.web.arc-cdn.net/resizer/BLhl_P-XK8GNfKUCBtiP9rrwcNw=/2400x1350/smart/filters:no_upscale()/cloudfront-us-east-1.images.arcpublishing.com/morningstar/347BSP2KJNBCLKVD7DGXSFLDLU.jpg",
+            "parsely-section": "Stocks",
+            "og:url": "https://www.morningstar.com/stocks/tesla-stock-is-down-30-2024-is-it-buy"
           }
         ],
         "cse_image": [
           {
-            "src": "https://www.nasdaq.com/sites/acquia.prod/files/styles/720x400/public/barchart/shutterstock_2394150809.jpg?1736088974418274515"
+            "src": "https://morningstar-morningstar-prod.web.arc-cdn.net/resizer/BLhl_P-XK8GNfKUCBtiP9rrwcNw=/2400x1350/smart/filters:no_upscale()/cloudfront-us-east-1.images.arcpublishing.com/morningstar/347BSP2KJNBCLKVD7DGXSFLDLU.jpg"
           }
         ]
       }
@@ -147,8 +162,8 @@
       "htmlTitle": "Is <b>Tesla Stock</b> A Buy Or A Sell As Negative Headlines Pile Up ...",
       "link": "https://www.investors.com/news/is-tesla-stock-a-buy-or-a-sell-right-now-as-elon-musk-teases-cybertruck/",
       "displayLink": "www.investors.com",
-      "snippet": "Mar 21, 2024 ... Tesla (TSLA) stock is angling lower in 2024, falling around 30% as the EV giant reported worse-than-expected fourth-quarter earnings and revenue in late\u00a0...",
-      "htmlSnippet": "Mar 21, 2024 <b>...</b> <b>Tesla</b> (<b>TSLA</b>) <b>stock</b> is angling lower in <b>2024</b>, <b>falling around 30%</b> as the EV giant reported worse-than-expected fourth-quarter earnings and revenue in late&nbsp;...",
+      "snippet": "Mar 21, 2024 ... Tesla (TSLA) stock is angling lower in 2024, falling around 30% as the EV giant reported worse-than-expected fourth-quarter earnings and\u00a0...",
+      "htmlSnippet": "Mar 21, 2024 <b>...</b> <b>Tesla</b> (<b>TSLA</b>) <b>stock</b> is angling lower in <b>2024</b>, falling around 30% as the EV giant reported worse-than-expected fourth-quarter earnings and&nbsp;...",
       "formattedUrl": "https://www.investors.com/.../is-tesla-stock-a-buy-or-a-sell-right-now-as-elo...",
       "htmlFormattedUrl": "https://www.investors.com/.../is-tesla-<b>stock</b>-a-buy-or-a-sell-right-now-as-elo...",
       "pagemap": {
@@ -210,47 +225,36 @@
     },
     {
       "kind": "customsearch#result",
-      "title": "TSLA Stock Quote Price and Forecast | CNN",
-      "htmlTitle": "<b>TSLA Stock Quote</b> Price and Forecast | CNN",
-      "link": "https://www.cnn.com/markets/stocks/TSLA",
-      "displayLink": "www.cnn.com",
-      "snippet": "View Tesla, Inc. TSLA stock quote prices, financial information, real ... TSLA Financials. Facts Insights Learn. Q3 earnings, quarter ending Sep 30, 2024.",
-      "htmlSnippet": "View <b>Tesla</b>, Inc. <b>TSLA stock quote</b> prices, financial information, real ... <b>TSLA</b> Financials. Facts Insights Learn. Q3 earnings, quarter ending Sep 30, <b>2024</b>.",
-      "formattedUrl": "https://www.cnn.com/markets/stocks/TSLA",
-      "htmlFormattedUrl": "https://www.cnn.com/markets/<b>stock</b>s/<b>TSLA</b>",
+      "title": "Tesla Investor Relations",
+      "htmlTitle": "<b>Tesla</b> Investor Relations",
+      "link": "https://ir.tesla.com/",
+      "displayLink": "ir.tesla.com",
+      "snippet": "... Tesla Announces Fourth Quarter 2024 Production, Deliveries & Deployments. View Press Release. Documents and Events. Quarterly Disclosure Other Documents\u00a0...",
+      "htmlSnippet": "... <b>Tesla</b> Announces Fourth Quarter <b>2024</b> Production, Deliveries &amp; Deployments. View Press Release. Documents and Events. Quarterly Disclosure Other Documents&nbsp;...",
+      "formattedUrl": "https://ir.tesla.com/",
+      "htmlFormattedUrl": "https://ir.tesla.com/",
       "pagemap": {
-        "cse_thumbnail": [
-          {
-            "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSyWcAfAbkc1NaA-u52cqzKHy0TJWUaecLJ93XiCkCpodbg2tojP_0sjs&s",
-            "width": "300",
-            "height": "168"
-          }
-        ],
         "metatags": [
           {
-            "og:image": "https://media.cnn.com/api/v1/images/stellar/prod/shared-image-markets.png",
-            "twitter:title": "__symbol__ Stock Quote Price and Forecast | CNN",
-            "og:type": "website",
+            "og:image": "https://digitalassets.tesla.com/tesla-contents/image/upload/h_628%2Cw_1200%2Cc_fit%2Cf_auto%2Cq_auto:best/Family_Social",
+            "theme-color": "#000000",
             "twitter:card": "summary_large_image",
-            "og:site_name": "CNN",
-            "og:title": "__symbol__ Stock Quote Price and Forecast | CNN",
-            "meta-section": "markets",
-            "type": "section",
-            "og:description": "View Tesla, Inc. TSLA stock quote prices, financial information, real-time forecasts, and company news from CNN.",
-            "twitter:image": "https://media.cnn.com/api/v1/images/stellar/prod/shared-image-markets.png",
-            "article:publisher": "https://www.facebook.com/CNN",
-            "fb:app_id": "80401312489",
-            "twitter:site": "@CNNbusiness",
-            "viewport": "width=device-width,initial-scale=1,shrink-to-fit=no",
-            "twitter:description": "View Tesla, Inc. TSLA stock quote prices, financial information, real-time forecasts, and company news from CNN.",
-            "template_type": "markets",
-            "theme": "markets",
-            "og:url": "https://www.cnn.com/markets/stocks/TSLA"
+            "twitter:title": "Tesla Investor Relations",
+            "og:site_name": "Tesla Investor Relations",
+            "og:image:url": "https://digitalassets.tesla.com/tesla-contents/image/upload/h_628%2Cw_1200%2Cc_fit%2Cf_auto%2Cq_auto:best/Family_Social",
+            "handheldfriendly": "true",
+            "og:title": "Tesla Investor Relations",
+            "og:description": "Tesla's mission is to accelerate the world's transition to sustainable energy. Today, Tesla builds not only all-electric vehicles but also infinitely scalable clean energy generation and storage products.",
+            "og:image:secure_url": "https://digitalassets.tesla.com/tesla-contents/image/upload/h_628%2Cw_1200%2Cc_fit%2Cf_auto%2Cq_auto:best/Family_Social",
+            "twitter:image": "https://digitalassets.tesla.com/tesla-contents/image/upload/h_628%2Cw_1200%2Cc_fit%2Cf_auto%2Cq_auto:best/Family_Social",
+            "viewport": "width=device-width, initial-scale=1.0",
+            "twitter:description": "Tesla's mission is to accelerate the world's transition to sustainable energy. Today, Tesla builds not only all-electric vehicles but also infinitely scalable clean energy generation and storage products.",
+            "mobileoptimized": "width"
           }
         ],
         "cse_image": [
           {
-            "src": "https://media.cnn.com/api/v1/images/stellar/prod/shared-image-markets.png"
+            "src": "https://digitalassets.tesla.com/tesla-contents/image/upload/h_628%2Cw_1200%2Cc_fit%2Cf_auto%2Cq_auto:best/Family_Social"
           }
         ]
       }

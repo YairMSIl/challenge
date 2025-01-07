@@ -1,5 +1,5 @@
 - issue with cost tracker. It is showing, for global cost, the cost of a single request, the last one.
-- 
+- cannot show more than one artifact. Need to support multi artifact presentation
 
 - cost tracker for the API to the agent (LLM) as well as any other external tool used - needs to be properly incorporated into the agent and reflect actual usage of tokens and not only user prompt and response.
 - Make sure cost is captured within the agent and any sub-tool/agent calls
