@@ -12,6 +12,7 @@ Design Decisions:
 - Uses async/await for API calls
 """
 
+import json
 import os
 import aiohttp
 import requests
