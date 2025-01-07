@@ -24,6 +24,7 @@ Integration Notes:
 
 from typing import Optional, Dict, Any, List
 from smolagents.agents import ToolCallingAgent
+from smolagents.prompts import TOOL_CALLING_SYSTEM_PROMPT
 
 from app.agent_framework.agents.base_agent import BaseAgent, AgentConfig, AgentType
 from app.agent_framework.agents.agent_utils import (
@@ -93,7 +94,8 @@ class GeminiAgent(BaseAgent):
                     artifacts=self.session_artifacts[self.session_id]
                 )
             ],
-            model=self.model
+            model=self.model,
+            system_prompt= TOOL_CALLING_SYSTEM_PROMPT + "\n\n" + "Use tools when necessary to generate the best possible response. However, when a toold is not required, use your own knowledge to generate the best possible response."
         )
 
     async def generate_content(self, prompt: str) -> str:
