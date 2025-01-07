@@ -131,3 +131,41 @@ Agent hierarchy:
 Note: We are handling the research as an external API call, thus it is wrapped as a tool. The implementation is based on a second agent which provides the said hierarchy and in my opinion provides greater flexibility and control over more complex tasks like research.
 
 Each external API is implemented separately as a module and is wrapped as a tool. This is to allow ease of introducing additional APIs or changing the existing ones. In general, we should be able to expose internal agent's communication to the user and have deeper control over the tools and their outputs. For example, asking the model to generate an image can invoke an internal agent that is solely responsible for the image generation. That agent can then query the user for details and provide a list of options to choose from.
+
+## Future improvements
+
+1. **User Management and Authentication**
+   - Implement user authentication and session management
+   - Store user interactions in a dedicated database with proper user isolation
+   - Support multiple API keys per user for different services
+   - Rate limiting and usage tracking per user
+
+2. **Asynchronous Task Management** 
+   - Implement async message queue for long-running tasks
+   - Add task status tracking and progress updates where applicable
+   - Allow task cancellation from UI
+   - Provide fallback mechanisms for failed tasks
+
+3. **API Key Management**
+   - Dynamic API key injection per user/session
+   - Secure storage and encryption of API keys
+   - Usage tracking and quota management per key
+
+4. **UI/UX Improvements**
+   - Add loading states and progress indicators where applicable
+   - Implement task cancellation UI
+   - Show real-time cost estimates
+   - Add concurrent task support for long running tasks (Decide how we want the UX to be when it takes long time to get a response)
+   - Improve error handling and user feedback
+   - What happens if a user sends more messages before we reply? Are we going to queue them up? Prevent user from sending more messages until we reply?
+
+5. **Architecture Enhancements**
+   - Move to fully async architecture
+   - Improve logging and monitoring
+   - Add proper error recovery mechanisms
+
+6. **Security Improvements**
+   - Add proper authentication flow
+   - Implement rate limiting
+   - Improve error handling
+   - Implement security measures both for APIs and LLM attacks (prompt injection, etc.)
