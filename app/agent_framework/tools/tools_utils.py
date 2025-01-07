@@ -70,7 +70,40 @@ class ArtifactHandler:
             logger.debug(f"Added new {artifact_type} artifact")
 
 class BaseTool(Tool):
-    """Abstract base class for all tools."""
+    """Abstract base class for all tools.
+
+    This class provides core functionality for tools including artifact handling and logging.
+    All tool implementations should inherit from this class.
+
+    Tools serve two key purposes:
+    1. Return a string response that the calling agent can use in its response to the user
+    2. Generate artifacts (images, audio, etc) that are displayed to the user in the UI
+
+    The artifact_handler manages generated content during tool execution:
+
+    Usage:
+        class MyTool(BaseTool):
+            def forward(self, prompt: str) -> str:
+                # Generate some content
+                result = self.generate_content(prompt)
+                
+                # Store non-verbal content as an artifact for UI display
+                self.artifact_handler.add_artifact(
+                    content=result["image"],
+                    artifact_type=ArtifactType.IMAGE.value  # or AUDIO, TEXT etc
+                )
+
+                # Return string response for the agent to use
+                return self._create_success_response(
+                    message="Generated an image of a sunset over mountains",
+                    data={"description": "The image shows a vibrant sunset..."}
+                )
+
+    The artifact_handler requires a session_id to track artifacts across requests.
+    Artifacts are stored in self.artifact_handler.artifacts and displayed in the UI.
+    The string response from forward() is passed to the calling agent to incorporate
+    into its response to the user.
+    """
     
     def __init__(self, session_id: Optional[str] = None, artifacts: Optional[List] = None):
         """Initialize the base tool."""
