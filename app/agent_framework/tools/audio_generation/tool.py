@@ -3,9 +3,6 @@
 
 Main implementation of the Audio Generation Tool.
 
-Public Components:
-- AudioGenerationTool: Tool class for generating audio
-
 Design Decisions:
 - Uses AIML API for audio generation
 - Implements proper error handling
@@ -15,8 +12,13 @@ Design Decisions:
 
 import base64
 from pathlib import Path
-from typing import Optional, List, Dict, Any
-from app.audio_generators.aiml_api import AudioGenerationConfig, AudioGenerator
+from typing import Optional, List
+
+from app.audio_generators import (
+    AudioGenerator,
+    AudioGenerationConfig,
+    AudioGenerationError
+)
 from app.models.artifact import ArtifactType
 from ..tools_utils import BaseTool, ToolResponseStatus
 from ..tool_constants import ToolName, ToolConfig, AUDIO_TOOL_INPUTS
@@ -69,7 +71,7 @@ class AudioGenerationTool(BaseTool):
         except Exception as e:
             logger.error(f"Failed to encode audio file: {str(e)}")
             raise
-    
+            
     def forward(
         self,
         prompt: str,
@@ -82,16 +84,12 @@ class AudioGenerationTool(BaseTool):
         
         Args:
             prompt: Text prompt for audio generation
-            duration: Duration in seconds (default: 10)
-            seed: Random seed for generation (optional)
-            temperature: Controls randomness (0.0 to 1.0, default: 0.7)
+            duration: Duration in seconds
+            seed: Random seed for generation
+            temperature: Controls randomness (0.0 to 1.0)
             
         Returns:
-            JSON string containing:
-                status: Status of the generation (success/error)
-                message: Success message if generation succeeded
-                error: Optional error message if generation failed
-                audio_key: Key to access the generated audio
+            JSON string containing generation results
         """
         try:
             if not self.artifact_handler.session_id:
@@ -100,7 +98,7 @@ class AudioGenerationTool(BaseTool):
                     status=ToolResponseStatus.ERROR,
                     error="Internal error: No session ID available"
                 ).to_string()
-                
+            
             logger.info(f"Generating audio for prompt: {prompt}")
             logger.debug(f"Parameters: duration={duration}, seed={seed}, temperature={temperature}")
             
@@ -115,20 +113,29 @@ class AudioGenerationTool(BaseTool):
             # Generate audio
             audio_path = self.generator.generate_audio(config)
             
-            # Encode audio to base64
-            base64_audio = self._encode_audio_file(audio_path)
+            # Encode audio file
+            audio_base64 = self._encode_audio_file(audio_path)
             
             # Store audio as artifact
-            self.artifact_handler.add_artifact(base64_audio, ArtifactType.AUDIO.value)
+            self.artifact_handler.add_artifact(audio_base64, ArtifactType.AUDIO.value)
             
+            # Return success response
             return AudioGenerationResponse(
                 status=ToolResponseStatus.SUCCESS,
                 message="Audio generated successfully. Note: The audio is displayed in the UI for the user in the artifacts section.",
                 audio_key=str(audio_path)
             ).to_string()
             
+        except AudioGenerationError as e:
+            error_msg = f"Audio generation failed: {str(e)}"
+            logger.error(error_msg)
+            return AudioGenerationResponse(
+                status=ToolResponseStatus.ERROR,
+                error=error_msg
+            ).to_string()
+            
         except Exception as e:
-            error_msg = f"Failed to generate audio: {str(e)}"
+            error_msg = f"Unexpected error: {str(e)}"
             logger.error(error_msg)
             return AudioGenerationResponse(
                 status=ToolResponseStatus.ERROR,
