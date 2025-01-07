@@ -60,8 +60,6 @@ app = FastAPI(title="Gemini Chat Interface")
 
 # Mount static files directory
 app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
-# Mount images directory
-app.mount("/images", StaticFiles(directory=Path("logs/images")), name="images")
 
 # Configure templates
 templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
@@ -163,8 +161,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
                     # Check if we have artifacts to display
                     for artifact in gemini_agent_api.session_artifacts[session_id]:
-                        logger.warning(f"Artifact: {artifact.is_new}")
-                        logger.warning(f"Artifact type: {artifact.type}")
                         if not artifact.is_new:
                             continue
 

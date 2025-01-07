@@ -22,6 +22,7 @@ class GenerationStatus(Enum):
     PROCESSING = "processing"
     COMPLETED = "completed"
     FAILED = "failed"
+    GENERATION = "generating"
 
 class ErrorType(Enum):
     """Types of errors that can occur during audio generation."""

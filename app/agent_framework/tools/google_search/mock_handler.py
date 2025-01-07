@@ -79,26 +79,4 @@ class MockHandler:
         except Exception as e:
             logger.error(f"Failed to load mock response: {str(e)}")
             return None
-            
-    def cleanup_old_mocks(self, max_age_days: int = 7) -> None:
-        """
-        Clean up mock files older than specified days.
-        
-        Args:
-            max_age_days: Maximum age of mock files in days
-        """
-        try:
-            if not self.mock_dir.exists():
-                return
-                
-            current_time = datetime.now()
-            mock_files = self.mock_dir.glob("google_search_*.json")
-            
-            for file in mock_files:
-                file_age = current_time - datetime.fromtimestamp(file.stat().st_mtime)
-                if file_age.days > max_age_days:
-                    file.unlink()
-                    logger.debug(f"Removed old mock file: {file}")
-                    
-        except Exception as e:
-            logger.error(f"Failed to cleanup old mocks: {str(e)}") 
+ 

@@ -11,6 +11,7 @@ Design Decisions:
 - Implements proper error handling
 - Provides rich search results
 - Follows tool interface pattern
+- Respects mock configuration for testing
 """
 
 import os
@@ -19,7 +20,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from dotenv import load_dotenv
 
-from ..tools_utils import BaseTool
+from ..tools_utils import BaseTool, str_to_bool
 from ..tool_constants import ToolConfig, ToolName, SEARCH_TOOL_INPUTS
 from .mock_handler import MockHandler
 from .response_formatter import ResponseFormatter
@@ -60,8 +61,9 @@ class GoogleSearchTool(BaseTool):
         
         self.mock_handler = MockHandler()
         self.service = build('customsearch', 'v1', developerKey=self.api_key)
-        logger.info("GoogleSearchTool initialized successfully")
-        
+        self.use_mock = str_to_bool(os.getenv(ToolConfig.USE_SEARCH_MOCK_KEY, 'false'))
+        logger.info(f"GoogleSearchTool initialized with mock enabled: {self.use_mock}")
+    
     def _execute_search(self, query: str, num_results: int) -> Dict[str, Any]:
         """
         Execute the search query.
@@ -105,12 +107,18 @@ class GoogleSearchTool(BaseTool):
             
             logger.info(f"Performing Google search for query: {query}")
             
-            # Try to get mock response first
-            response = self.mock_handler.get_latest_response()
+            # Try to get mock response if enabled
+            response = None
+            if self.use_mock:
+                logger.debug("Mock is enabled, attempting to get mock response")
+                response = self.mock_handler.get_latest_response()
+                if response:
+                    logger.info("Using mock response instead of making API call")
             
             if response is None:
-                logger.debug("No mock response available, making API call")
+                logger.debug("No mock response available or mock disabled, making API call")
                 response = self._execute_search(query, num_results)
+                # Save mock response if successful
                 self.mock_handler.save_response(response)
             
             # Format the response

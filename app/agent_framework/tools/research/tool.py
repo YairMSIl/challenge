@@ -79,7 +79,7 @@ class ResearchTool(BaseTool):
             
             return ResearchResponse(
                 status=ToolResponseStatus.SUCCESS,
-                message="Research completed successfully",
+                message=f"Research completed successfully. See the report for details in the artifact section.\n\n{report}",
                 report=report
             ).to_string()
             
